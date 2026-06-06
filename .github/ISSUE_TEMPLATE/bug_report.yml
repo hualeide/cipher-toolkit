@@ -1,0 +1,35 @@
+name: Bug 报告
+description: 识别错误、加解密异常、UI 问题
+labels: ["bug"]
+body:
+  - type: textarea
+    id: describe
+    attributes:
+      label: 问题描述
+      placeholder: 发生了什么？期望是什么？
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. 算法：unicode-cp-caesar
+        2. 密文：...
+        3. 识别结果：...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: 版本
+      placeholder: v1.0.0 / latest Docker / 本地 dev
+  - type: dropdown
+    id: env
+    attributes:
+      label: 运行环境
+      options:
+        - 本地 npm run dev
+        - Docker
+        - GitHub Pages
+        - Render / 其他云

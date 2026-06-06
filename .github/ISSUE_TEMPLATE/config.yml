@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 部署问题
+    url: https://github.com/hualeide/cipher-toolkit/blob/master/DEPLOY.md
+    about: 安装、Docker、Pages 部署请看 DEPLOY.md
+  - name: 识别压测
+    url: https://github.com/hualeide/cipher-toolkit/blob/master/BENCHMARKS.md
+    about: 和合本压测与基准数据

@@ -12,7 +12,7 @@ export default {
   },
   identify: {
     title: '자동 식별',
-    desc: '암호문 붙여넣기 → 97종 시도·점수 순위·왕복 검증. 우측에 엔트로피/IC/빈도/Kasiski 통계 힌트.',
+    desc: '암호문 붙여넣기 → 98종 시도·점수 순위·왕복 검증. 우측에 엔트로피/IC/빈도/Kasiski 통계 힌트.',
     inputLabel: '암호문 / 인코딩 텍스트',
     inputPh: '의심스러운 텍스트 붙여넣기…',
     conclusion: '식별 결론',

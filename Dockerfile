@@ -15,6 +15,7 @@ LABEL org.opencontainers.image.source=https://github.com/hualeide/cipher-toolkit
 LABEL org.opencontainers.image.description="Cipher Toolkit — 98-algorithm web crypto lab with Chinese-first identification"
 COPY --from=build /app/backend ./backend
 COPY --from=build /app/frontend/dist ./frontend/dist
+COPY --from=build /app/docs ./docs
 COPY --from=build /app/package.json ./
 RUN npm install --prefix backend --omit=dev
 EXPOSE 3001

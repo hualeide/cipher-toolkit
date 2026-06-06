@@ -1,0 +1,109 @@
+openapi: 3.0.3
+info:
+  title: Cipher Toolkit API
+  description: 密码学工具箱 REST API — 98 种算法加解密、识别、分析、多媒体
+  version: 1.0.0
+  license:
+    name: MIT
+    url: https://github.com/hualeide/cipher-toolkit/blob/master/LICENSE
+servers:
+  - url: http://localhost:3001
+    description: 本地开发 / Docker 生产
+paths:
+  /api/health:
+    get:
+      summary: 健康检查
+      responses:
+        '200':
+          description: OK
+  /api/ciphers:
+    get:
+      summary: 列出全部算法元数据
+      responses:
+        '200':
+          description: 算法列表
+  /api/ciphers/categories:
+    get:
+      summary: 算法分类
+  /api/ciphers/{id}:
+    get:
+      summary: 单个算法详情
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+  /api/ciphers/encrypt:
+    post:
+      summary: 加密
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [id, text]
+              properties:
+                id: { type: string, example: unicode-cp-caesar }
+                text: { type: string }
+                params: { type: object }
+      responses:
+        '200':
+          description: { result: string }
+  /api/ciphers/decrypt:
+    post:
+      summary: 解密
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [id, text]
+              properties:
+                id: { type: string }
+                text: { type: string }
+                params: { type: object }
+  /api/ciphers/identify:
+    post:
+      summary: 智能识别
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [text]
+              properties:
+                text: { type: string }
+                limit: { type: integer, default: 15 }
+                minScore: { type: number, default: 30 }
+                extraKeys: { type: array, items: { type: string } }
+  /api/ciphers/analyze:
+    post:
+      summary: 密文统计分析
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [text]
+              properties:
+                text: { type: string }
+  /api/ciphers/auto-chain:
+    post:
+      summary: 自动组合解密
+  /api/ciphers/chain-decrypt:
+    post:
+      summary: 手动链解密
+  /api/ciphers/format-convert:
+    post:
+      summary: 格式互转
+  /api/ciphers/file:
+    post:
+      summary: 文件加解密（multipart）
+  /api/media/stego/embed:
+    post:
+      summary: PNG LSB 藏文
+  /api/media/stego/extract:
+    post:
+      summary: PNG LSB 提取

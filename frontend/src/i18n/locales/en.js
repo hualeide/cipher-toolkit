@@ -12,7 +12,7 @@ export default {
   },
   identify: {
     title: 'Auto Detect',
-    desc: 'Paste ciphertext: the system tries all 97 ciphers, ranks by score, and verifies round-trips. Side panel shows entropy, IC, frequency, and Kasiski hints. Confidence reflects readability + verification + gap to runner-up; “Verified” means re-encryption recovers the input.',
+    desc: 'Paste ciphertext: the system tries all 98 ciphers, ranks by score, and verifies round-trips. Side panel shows entropy, IC, frequency, and Kasiski hints. Confidence reflects readability + verification + gap to runner-up; “Verified” means re-encryption recovers the input.',
     inputLabel: 'Ciphertext / encoded text',
     inputPh: 'Paste suspicious text — no cipher selection needed…',
     conclusion: 'Conclusion',
@@ -92,7 +92,7 @@ export default {
   },
   library: {
     title: 'Cipher Encyclopedia',
-    desc: 'Principles for all 97 ciphers: how it works, steps, examples, history, and related links. Classical (Caesar/Vigenère/Bifid/Trifid/Four-square), encodings (Base64/JWT), modern crypto, and Gravity Falls specials.',
+    desc: 'Principles for all 98 ciphers: how it works, steps, examples, history, and related links. Classical (Caesar/Vigenère/Bifid/Trifid/Four-square), encodings (Base64/JWT), modern crypto, and Gravity Falls specials.',
     searchPh: 'Search ciphers, Gravity Falls…', all: 'All',
     principle: 'How it works', steps: 'Steps', origin: 'Origin', trivia: 'Trivia', usage: 'Usage',
     related: 'Related', params: 'Parameters', goTransform: 'Open transform',

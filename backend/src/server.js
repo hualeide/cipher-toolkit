@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
+import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import cipherRoutes from './routes/ciphers.js';
 import mediaRoutes from './routes/media.js';
@@ -14,6 +15,11 @@ app.use(express.json({ limit: '2mb' }));
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+app.get('/api/openapi.yaml', (_req, res) => {
+  const spec = path.join(__dir, '../../docs/openapi.yaml');
+  res.type('text/yaml').send(readFileSync(spec, 'utf8'));
 });
 
 app.use('/api/ciphers', cipherRoutes);

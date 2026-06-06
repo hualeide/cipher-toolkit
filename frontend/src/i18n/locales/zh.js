@@ -12,7 +12,7 @@ export default {
   },
   identify: {
     title: '自动识别',
-    desc: '粘贴密文即可：系统穷举 97 种算法、评分排序，并做往返校验。右侧密文分析提供熵/IC/频率/Kasiski 等统计线索。置信度反映「可读性 + 校验 + 与次优差距」；「已校验」表示加密后能还原原密文。',
+    desc: '粘贴密文即可：系统穷举 98 种算法、评分排序，并做往返校验。右侧密文分析提供熵/IC/频率/Kasiski 等统计线索。置信度反映「可读性 + 校验 + 与次优差距」；「已校验」表示加密后能还原原密文。',
     inputLabel: '输入密文 / 编码文本',
     inputPh: '粘贴可疑文本，无需选择算法…',
     conclusion: '识别结论',
@@ -92,7 +92,7 @@ export default {
   },
   library: {
     title: '算法百科',
-    desc: '97 种算法原理详解：工作方式、操作步骤、加解密示例、历史来源与相关算法跳转。古典（凯撒/维吉尼亚/Bifid/Trifid/Four-square）、编码（Base64/JWT）、现代加密与怪诞小镇专题均有收录。',
+    desc: '98 种算法原理详解：工作方式、操作步骤、加解密示例、历史来源与相关算法跳转。古典（凯撒/维吉尼亚/Bifid/Trifid/Four-square）、编码（Base64/JWT）、现代加密与怪诞小镇专题均有收录。',
     searchPh: '搜索算法、原理、怪诞小镇…', all: '全部',
     principle: '原理详解', steps: '操作步骤', origin: '来源', trivia: '趣闻', usage: '使用说明',
     related: '相关算法', params: '可调参数', goTransform: '去加解密',

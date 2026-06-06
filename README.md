@@ -30,6 +30,25 @@ docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit
 
 ---
 
+## 界面预览
+
+![自动识别页](docs/screenshots/home.png)
+
+---
+
+## 文档
+
+| 文档 | 说明 |
+|------|------|
+| [DEPLOY.md](./DEPLOY.md) | 部署（Docker / Render / Pages） |
+| [BENCHMARKS.md](./BENCHMARKS.md) | 识别压测与通过率 |
+| [CONTRIBUTING.md](./CONTRIBUTING.md) | 贡献指南 |
+| [CHANGELOG.md](./CHANGELOG.md) | 版本变更 |
+| [SECURITY.md](./SECURITY.md) | 安全政策 |
+| [docs/openapi.yaml](./docs/openapi.yaml) | API 规范（运行时 `/api/openapi.yaml`） |
+
+---
+
 ## 你能用它做什么
 
 | 场景 | 功能 |
@@ -297,6 +316,7 @@ docker compose up --build   # Docker 全栈
 | POST | /api/ciphers/file | 文件加解密（multipart） |
 | POST | /api/media/stego/embed | 图片 LSB 藏文 |
 | POST | /api/media/stego/extract | 图片 LSB 提取 |
+| GET | /api/openapi.yaml | OpenAPI 规范 |
 
 ## 测试
 
@@ -305,7 +325,7 @@ npm test
 # 和合本压测（慢）: node backend/test-identify-bible-zh.js
 ```
 
-含 10 轮全算法识别回环（严格档置信度 ≥95）、文本分析、多语言、文件/LSB 等自测。
+含 10 轮全算法识别回环（**780/780** 严格档 ≥95）、文本分析、多语言、文件/LSB 等自测。详见 [BENCHMARKS.md](./BENCHMARKS.md)。
 
 ---
 
