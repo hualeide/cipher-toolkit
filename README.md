@@ -4,7 +4,7 @@
 
 整合 **98** 种加密/编码/变换方式的全栈 Web 工具，**中文识别**是本项目核心能力之一（和合本/名著语料压测、码点凯撒优先、摩斯繁简电报码等）。
 
-**在线仓库**：[github.com/hualeide/cipher-toolkit](https://github.com/hualeide/cipher-toolkit)
+**在线仓库**：[github.com/hualeide/cipher-toolkit](https://github.com/hualeide/cipher-toolkit) · **Pages 预览**：[hualeide.github.io/cipher-toolkit](https://hualeide.github.io/cipher-toolkit/)
 
 ---
 
@@ -259,6 +259,16 @@ npm test
 ```
 
 含 10 轮全算法识别回环（严格档置信度 ≥95）、文本分析、多语言、文件/LSB 等自测。
+
+---
+
+## GitHub Pages 在线预览
+
+前端自动部署至：**https://hualeide.github.io/cipher-toolkit/**
+
+> **限制**：GitHub Pages 仅托管静态文件，**无法运行 Node.js 后端**。加解密、识别、多媒体等能力依赖 `/api`，Pages 上默认无法调用。完整功能请本地 `npm run dev` 或 Docker 部署。
+>
+> 若将后端部署到其他域名（Render / Railway / 自有 VPS 等），在仓库 **Settings → Secrets → Actions** 添加 `VITE_API_BASE`（如 `https://your-api.example.com`），重新触发 Pages 工作流即可让在线版连上 API。
 
 ---
 

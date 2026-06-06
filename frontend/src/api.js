@@ -1,11 +1,13 @@
+import { apiUrl } from './api/base.js';
+
 export async function fetchCiphers() {
-  const res = await fetch('/api/ciphers');
+  const res = await fetch(apiUrl('/api/ciphers'));
   if (!res.ok) throw new Error('加载失败');
   return res.json();
 }
 
 export async function encrypt(id, text, params) {
-  const res = await fetch('/api/ciphers/encrypt', {
+  const res = await fetch(apiUrl('/api/ciphers/encrypt'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id, text, params }),
@@ -21,7 +23,7 @@ export async function encrypt(id, text, params) {
 }
 
 export async function decrypt(id, text, params) {
-  const res = await fetch('/api/ciphers/decrypt', {
+  const res = await fetch(apiUrl('/api/ciphers/decrypt'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id, text, params }),
@@ -37,7 +39,7 @@ export async function decrypt(id, text, params) {
 }
 
 export async function identify(text, limit = 15, minScore = 30, extraKeys = []) {
-  const res = await fetch('/api/ciphers/identify', {
+  const res = await fetch(apiUrl('/api/ciphers/identify'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ text, limit, minScore, extraKeys }),
@@ -48,7 +50,7 @@ export async function identify(text, limit = 15, minScore = 30, extraKeys = []) 
 }
 
 export async function analyzeText(text) {
-  const res = await fetch('/api/ciphers/analyze', {
+  const res = await fetch(apiUrl('/api/ciphers/analyze'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ text }),
@@ -59,7 +61,7 @@ export async function analyzeText(text) {
 }
 
 export async function autoChain(text) {
-  const res = await fetch('/api/ciphers/auto-chain', {
+  const res = await fetch(apiUrl('/api/ciphers/auto-chain'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ text, maxDepth: 2 }),
@@ -70,7 +72,7 @@ export async function autoChain(text) {
 }
 
 export async function chainDecrypt(text, steps) {
-  const res = await fetch('/api/ciphers/chain-decrypt', {
+  const res = await fetch(apiUrl('/api/ciphers/chain-decrypt'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ text, steps }),

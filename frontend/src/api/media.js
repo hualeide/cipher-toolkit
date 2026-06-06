@@ -1,4 +1,6 @@
-const BASE = '/api/media';
+import { apiUrl } from './base.js';
+
+const BASE = apiUrl('/api/media');
 
 async function postForm(path, formData) {
   const res = await fetch(`${BASE}${path}`, { method: 'POST', body: formData });

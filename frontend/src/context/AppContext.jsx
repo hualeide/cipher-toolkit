@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { detectLocale, translate, applyDocumentLang, LOCALES } from '../i18n/index.js';
 import { loadSettings, saveSettings } from '../hooks/useSettings.js';
+import { apiUrl } from '../api/base.js';
 
 const AppContext = createContext(null);
 
@@ -29,7 +30,7 @@ export function AppProvider({ children }) {
   const t = useCallback((path, vars) => translate(locale, path, vars), [locale]);
 
   useEffect(() => {
-    fetch('/api/ciphers')
+    fetch(apiUrl('/api/ciphers'))
       .then((r) => r.json())
       .then((data) => {
         setCiphers(data.ciphers);
