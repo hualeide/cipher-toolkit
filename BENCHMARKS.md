@@ -4,6 +4,7 @@
 
 | 套件 | 规模 | 结果 |
 |------|------|------|
+| `npm run test:e2e` | Playwright **7** 用例（导航/识别/加解密/组合链） | CI 每次运行 |
 | `test-identify-roundtrip.js` | 78 算法 × 10 轮，置信度 ≥95 | **780/780** |
 | `test-identify.js` | 28 条手工/CTF 用例 | **28/28** |
 | `test-identify-zh-slang.js` | 口语库 33969 条抽样 | **6/6** |
