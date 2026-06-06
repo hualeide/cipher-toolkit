@@ -12,7 +12,9 @@
 
 ```bash
 npm run dev          # 前端 5173 + 后端 3001
-npm test             # 全模块自测（必跑）
+npm test             # 后端全模块自测（必跑）
+npx playwright install chromium   # 首次 E2E
+npm run test:e2e     # Playwright 前端 E2E
 ```
 
 ### 新增算法

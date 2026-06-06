@@ -322,10 +322,11 @@ docker compose up --build   # Docker 全栈
 
 ```bash
 npm test
+npm run test:e2e     # 需先 npx playwright install chromium
 # 和合本压测（慢）: node backend/test-identify-bible-zh.js
 ```
 
-含 10 轮全算法识别回环（**780/780** 严格档 ≥95）、文本分析、多语言、文件/LSB 等自测。详见 [BENCHMARKS.md](./BENCHMARKS.md)。
+含 10 轮全算法识别回环（**780/780** 严格档 ≥95）、Playwright E2E、文本分析、多语言、文件/LSB 等自测。详见 [BENCHMARKS.md](./BENCHMARKS.md)。
 
 ---
 

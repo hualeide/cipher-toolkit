@@ -12,9 +12,12 @@
     "test:media": "node backend/test-media.js",
     "test:multilingual": "node backend/test-multilingual.js",
     "test:all": "node backend/test-all.js",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "start:prod": "npm run build --prefix frontend && node --env-file=.env.prod backend/src/server.js"
   },
   "devDependencies": {
+    "@playwright/test": "^1.52.0",
     "concurrently": "^9.1.2"
   }
 }
