@@ -198,7 +198,7 @@ npm test
 
 ## 许可
 
-见仓库 LICENSE（如未单独声明，以仓库默认为准）。
+[MIT License](./LICENSE)
 `;
 
 writeFileSync(out, md, 'utf8');
