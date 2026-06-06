@@ -11,6 +11,8 @@ FROM node:22-alpine
 WORKDIR /app
 ENV NODE_ENV=production
 ENV SERVE_FRONTEND=1
+LABEL org.opencontainers.image.source=https://github.com/hualeide/cipher-toolkit
+LABEL org.opencontainers.image.description="Cipher Toolkit — 98-algorithm web crypto lab with Chinese-first identification"
 COPY --from=build /app/backend ./backend
 COPY --from=build /app/frontend/dist ./frontend/dist
 COPY --from=build /app/package.json ./

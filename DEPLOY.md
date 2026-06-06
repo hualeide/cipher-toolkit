@@ -8,7 +8,8 @@
 
 | 方式 | 难度 | 适用场景 |
 |------|------|----------|
-| [一键脚本](#本地一键安装) | ⭐ | 本机试用、局域网分享 |
+| [**GitHub Packages 一键 Docker**](#github-packages-一键-docker) | ⭐ | **只需 Docker，不用 clone** |
+| [一键脚本](#本地一键安装) | ⭐ | 本机试用、改源码 |
 | [Docker](#docker-推荐) | ⭐⭐ | 服务器/VPS、环境一致 |
 | [Render 云部署](#render-一键部署) | ⭐ | 免费公网 demo（有休眠） |
 | [GitHub Pages + 外部 API](#github-pages--外部后端) | ⭐⭐⭐ | 静态 CDN + 自建 API |
@@ -25,7 +26,42 @@
 
 ---
 
-## 本地一键安装
+## GitHub Packages 一键 Docker
+
+CI 每次推送到 `master` 会自动构建并发布 Docker 镜像到 **GitHub Packages**（仓库右侧「Packages / 包裹」可见）。
+
+### 一行启动（推荐）
+
+```bash
+docker run -d -p 3001:3001 --name cipher-toolkit --restart unless-stopped ghcr.io/hualeide/cipher-toolkit:latest
+```
+
+浏览器打开 **http://localhost:3001**。
+
+### 或使用 compose / 脚本
+
+```bash
+# 仅需 docker-compose.ghcr.yml（可从仓库 raw 下载）
+docker compose -f docker-compose.ghcr.yml up -d
+
+# 或 clone 后
+./run-docker.sh      # Linux/macOS
+.\run-docker.ps1     # Windows
+```
+
+### 镜像地址
+
+| 标签 | 说明 |
+|------|------|
+| `ghcr.io/hualeide/cipher-toolkit:latest` | 最新 master |
+| `ghcr.io/hualeide/cipher-toolkit:<sha>` | 某次提交 |
+| `ghcr.io/hualeide/cipher-toolkit:v1.0.0` | 打 tag 发布 |
+
+Package 页面：https://github.com/hualeide/cipher-toolkit/pkgs/container/cipher-toolkit
+
+> 若 `docker pull` 报 403，在 Package 设置中将可见性设为 **Public**（公开仓库通常默认可拉取）。
+
+---
 
 ### Windows
 

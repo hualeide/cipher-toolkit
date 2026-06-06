@@ -1,0 +1,12 @@
+# 一键拉取 GitHub Packages 预构建镜像，无需 clone / build
+# 用法: docker compose -f docker-compose.ghcr.yml up -d
+
+services:
+  cipher-toolkit:
+    image: ghcr.io/hualeide/cipher-toolkit:latest
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - SERVE_FRONTEND=1
+    restart: unless-stopped

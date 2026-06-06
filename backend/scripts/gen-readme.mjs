@@ -30,7 +30,25 @@ const md = `# 密码学工具箱 (Cipher Toolkit)
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/hualeide/cipher-toolkit)
 
-> **完整功能**需运行后端。最快上手：克隆后执行 \`.\install.ps1\`（Windows）或 \`./install.sh\`（Linux/macOS），详见 **[DEPLOY.md](./DEPLOY.md)**。
+### 一键 Docker 包（GitHub Packages）
+
+只需安装 [Docker](https://www.docker.com/)，**无需 clone 源码**：
+
+\`\`\`powershell
+# Windows — 一行命令：
+docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit:latest
+\`\`\`
+
+\`\`\`bash
+# Linux / macOS
+docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit:latest
+\`\`\`
+
+打开 **http://localhost:3001** 即可使用全部功能。
+
+预构建镜像：[Packages → cipher-toolkit](https://github.com/hualeide/cipher-toolkit/pkgs/container/cipher-toolkit)
+
+> **完整功能**需运行后端。也可克隆后 \`.\install.ps1\` / \`./install.sh\`，详见 **[DEPLOY.md](./DEPLOY.md)**。
 
 ---
 
@@ -164,6 +182,7 @@ npm test
 
 | 方式 | 命令 / 链接 | 说明 |
 |------|-------------|------|
+| **GitHub Packages** | \`docker run -d -p 3001:3001 ghcr.io/hualeide/cipher-toolkit:latest\` | 预构建镜像，只需 Docker |
 | **本地一键** | \`install.ps1\` / \`install.sh\` | 装依赖并可选启动 |
 | **Docker** | \`docker compose up --build\` | 推荐服务器部署 |
 | **Render 云** | [Deploy to Render](https://render.com/deploy?repo=https://github.com/hualeide/cipher-toolkit) | 免费公网 demo |
