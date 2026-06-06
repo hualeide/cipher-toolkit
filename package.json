@@ -1,0 +1,19 @@
+{
+  "name": "cipher-toolkit",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "install:all": "npm install && npm install --prefix backend && npm install --prefix frontend",
+    "test": "node backend/test-all.js",
+    "test:identify": "node backend/test-identify.js",
+    "test:media": "node backend/test-media.js",
+    "test:multilingual": "node backend/test-multilingual.js",
+    "test:all": "node backend/test-all.js"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
