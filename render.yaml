@@ -1,0 +1,16 @@
+# Render Blueprint — 一键部署全栈（前端+后端同域）
+# https://render.com/deploy?repo=https://github.com/hualeide/cipher-toolkit
+
+services:
+  - type: web
+    name: cipher-toolkit
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SERVE_FRONTEND
+        value: "1"

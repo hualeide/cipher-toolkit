@@ -10,6 +10,7 @@ RUN npm run build --prefix frontend
 FROM node:22-alpine
 WORKDIR /app
 ENV NODE_ENV=production
+ENV SERVE_FRONTEND=1
 COPY --from=build /app/backend ./backend
 COPY --from=build /app/frontend/dist ./frontend/dist
 COPY --from=build /app/package.json ./

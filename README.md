@@ -4,7 +4,11 @@
 
 整合 **98** 种加密/编码/变换方式的全栈 Web 工具，**中文识别**是本项目核心能力之一（和合本/名著语料压测、码点凯撒优先、摩斯繁简电报码等）。
 
-**在线仓库**：[github.com/hualeide/cipher-toolkit](https://github.com/hualeide/cipher-toolkit) · **Pages 预览**：[hualeide.github.io/cipher-toolkit](https://hualeide.github.io/cipher-toolkit/)
+**在线仓库**：[github.com/hualeide/cipher-toolkit](https://github.com/hualeide/cipher-toolkit) · **Pages 预览（仅 UI）**：[hualeide.github.io/cipher-toolkit](https://hualeide.github.io/cipher-toolkit/)
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/hualeide/cipher-toolkit)
+
+> **完整功能**需运行后端。最快上手：克隆后执行 `.\install.ps1`（Windows）或 `./install.sh`（Linux/macOS），详见 **[DEPLOY.md](./DEPLOY.md)**。
 
 ---
 
@@ -226,15 +230,40 @@ node backend/scripts/cipher-format.mjs -f text -t hex "你好"
 - **后端**: Node.js + Express
 - **前端**: React + Vite
 
-## 启动
+## 快速开始
+
+### 一键安装（推荐）
+
+```powershell
+# Windows
+git clone https://github.com/hualeide/cipher-toolkit.git
+cd cipher-toolkit
+.\install.ps1
+```
+
+```bash
+# Linux / macOS
+git clone https://github.com/hualeide/cipher-toolkit.git
+cd cipher-toolkit
+chmod +x install.sh && ./install.sh
+```
+
+### 手动启动
 
 ```bash
 npm run install:all
-npm run dev
+npm run dev          # 开发：前端 5173 + 后端 3001
+npm run start:prod   # 生产：单端口 3001（前后端同源）
+docker compose up --build   # Docker 全栈
 ```
 
-- 前端: http://localhost:5173
-- 后端 API: http://localhost:3001
+| 模式 | 地址 |
+|------|------|
+| 开发 | http://localhost:5173 |
+| 生产 / Docker | http://localhost:3001 |
+| API 健康检查 | http://localhost:3001/api/health |
+
+**部署文档**：[DEPLOY.md](./DEPLOY.md)（Render 一键云部署、Pages + 外部 API、环境变量、FAQ）
 
 ## API 摘要
 
@@ -262,13 +291,16 @@ npm test
 
 ---
 
-## GitHub Pages 在线预览
+## 部署方式
 
-前端自动部署至：**https://hualeide.github.io/cipher-toolkit/**
+| 方式 | 命令 / 链接 | 说明 |
+|------|-------------|------|
+| **本地一键** | `install.ps1` / `install.sh` | 装依赖并可选启动 |
+| **Docker** | `docker compose up --build` | 推荐服务器部署 |
+| **Render 云** | [Deploy to Render](https://render.com/deploy?repo=https://github.com/hualeide/cipher-toolkit) | 免费公网 demo |
+| **GitHub Pages** | [在线预览](https://hualeide.github.io/cipher-toolkit/) | 仅静态 UI，需配 `VITE_API_BASE` |
 
-> **限制**：GitHub Pages 仅托管静态文件，**无法运行 Node.js 后端**。加解密、识别、多媒体等能力依赖 `/api`，Pages 上默认无法调用。完整功能请本地 `npm run dev` 或 Docker 部署。
->
-> 若将后端部署到其他域名（Render / Railway / 自有 VPS 等），在仓库 **Settings → Secrets → Actions** 添加 `VITE_API_BASE`（如 `https://your-api.example.com`），重新触发 Pages 工作流即可让在线版连上 API。
+完整步骤、环境变量与 FAQ → **[DEPLOY.md](./DEPLOY.md)**
 
 ---
 

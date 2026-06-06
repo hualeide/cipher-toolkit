@@ -11,7 +11,8 @@
     "test:identify": "node backend/test-identify.js",
     "test:media": "node backend/test-media.js",
     "test:multilingual": "node backend/test-multilingual.js",
-    "test:all": "node backend/test-all.js"
+    "test:all": "node backend/test-all.js",
+    "start:prod": "npm run build --prefix frontend && node --env-file=.env.prod backend/src/server.js"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
