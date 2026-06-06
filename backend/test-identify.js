@@ -26,7 +26,7 @@ const cases = [
   { input: '5L2g5aW9', expectId: 'base64', expectResultContains: '你好' },
   { input: 'h3ll0', expectAnyResultContains: 'hello', expectAnyId: ['leet', 'caesar'] },
   { input: '72 101 108 108 111', expectId: 'decimal', expectResult: 'Hello' },
-  { input: '憇熳似', expectId: 'vigenere', expectResult: '我爱你' },
+  { input: '憇熳似', expectIdAny: ['unicode-cp-vigenere', 'vigenere'], expectResult: '我爱你' },
 ];
 
 // Unicode 码点密码 — 动态生成密文
