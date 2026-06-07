@@ -6,7 +6,7 @@
 
 ### Changed
 
-- 文档：[docs/IDENTIFY-TECH.md](./docs/IDENTIFY-TECH.md) 增加「容易出现的误区」
+- 文档：[docs/IDENTIFY-TECH.md](./docs/IDENTIFY-TECH.md) 增加码点密码安全边界与误区 5
 
 ### Added
 
