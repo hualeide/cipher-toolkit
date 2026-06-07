@@ -9,6 +9,7 @@ import mediaRoutes from './routes/media.js';
 const __dir = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 3001;
+const HOST = process.env.HOST || '0.0.0.0';
 
 app.use(cors());
 app.use(express.json({ limit: '2mb' }));
@@ -33,6 +34,6 @@ if (process.env.SERVE_FRONTEND === '1') {
   });
 }
 
-app.listen(PORT, () => {
-  console.log(`Cipher Toolkit API → http://localhost:${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`Cipher Toolkit API → http://${HOST}:${PORT}`);
 });

@@ -10,3 +10,4 @@ blob-report/
 .cursor/
 .codegraph/
 backend/data/*.json
+release/

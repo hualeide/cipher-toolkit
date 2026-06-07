@@ -14,7 +14,9 @@
     "test:all": "node backend/test-all.js",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "start:prod": "npm run build --prefix frontend && node --env-file=.env.prod backend/src/server.js"
+    "start:prod": "npm run build --prefix frontend && node --env-file=.env.prod backend/src/server.js",
+    "start:desktop": "node scripts/desktop-launcher.mjs",
+    "build:win": "powershell -ExecutionPolicy Bypass -File scripts/build-win.ps1"
   },
   "devDependencies": {
     "@playwright/test": "^1.52.0",

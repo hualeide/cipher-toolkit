@@ -8,7 +8,8 @@
 
 | 方式 | 难度 | 适用场景 |
 |------|------|----------|
-| [**GitHub Packages 一键 Docker**](#github-packages-一键-docker) | ⭐ | **只需 Docker，不用 clone** |
+| [**Windows `.exe` 桌面版**](./docs/DESKTOP.md) | ⭐ | **双击即用，无需 Node/Docker**（Windows 10/11） |
+| [**GitHub Packages 一键 Docker**](#github-packages-一键-docker) | ⭐ | 只需 Docker，不用 clone |
 | [一键脚本](#本地一键安装) | ⭐ | 本机试用、改源码 |
 | [Docker](#docker-推荐) | ⭐⭐ | 服务器/VPS、环境一致 |
 | [Render 云部署](#render-一键部署) | ⭐ | 免费公网 demo（有休眠） |

@@ -6,7 +6,9 @@
 
 ### Changed
 
-- 文档：[docs/IDENTIFY-TECH.md](./docs/IDENTIFY-TECH.md) 增加码点密码安全边界与误区 5
+- Windows 桌面版：双击 exe 启动，见 [docs/DESKTOP.md](./docs/DESKTOP.md)
+
+### Added (Unreleased prior)
 
 ### Added
 
