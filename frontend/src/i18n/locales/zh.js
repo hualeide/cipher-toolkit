@@ -2,7 +2,7 @@ export default {
   lang: { zh: '中文', en: 'English', ja: '日本語', ko: '한국어' },
   brand: { title: '密码学工具箱', algorithms: '种算法' },
   nav: {
-    identify: '自动识别', transform: '加解密', chain: '组合解密',
+    identify: '自动识别（实验）', transform: '加解密', chain: '组合解密',
     library: '算法百科', media: '多媒体', settings: '设置',
   },
   loading: '加载算法库…',
@@ -12,8 +12,8 @@ export default {
   },
   identify: {
     title: '自动识别',
-    desc: '粘贴密文即可：系统穷举 98 种算法、评分排序，并做往返校验。右侧密文分析提供熵/IC/频率/Kasiski 等统计线索。置信度反映「可读性 + 校验 + 与次优差距」；「已校验」表示加密后能还原原密文。',
-    descShort: '粘贴密文，穷举算法并排序；右侧可看熵、IC 等统计。',
+    desc: '【实验功能，结果需复核】粘贴密文后穷举 98 种算法、评分排序，并做往返校验。复杂多层密文请优先「组合解密」或手动到加解密页验证。右侧密文分析提供熵/IC/频率/Kasiski 等统计线索。',
+    descShort: '实验功能：粘贴密文穷举算法；复杂题请用组合解密或加解密页手动验证。',
     inputLabel: '输入密文 / 编码文本',
     inputPh: '粘贴密文…',
     conclusion: '识别结论',
@@ -58,7 +58,7 @@ export default {
   },
   transform: {
     title: '加解密',
-    desc: '选定算法与参数后双向转换：凯撒/维吉尼亚等支持中英日韩；百科区展示原理、步骤与示例。单向哈希仅支持明文→摘要。',
+    desc: '学习密码学的主入口：选定算法与参数后双向转换；凯撒/维吉尼亚等支持中英日韩。百科区展示原理、步骤与示例。单向哈希仅支持明文→摘要。',
     descShort: '选算法、设参数，明文密文双向联动；下方可看原理与示例。',
     plain: '明文',
     cipher: '密文',

@@ -1,8 +1,9 @@
 import { test, expect } from '@playwright/test';
-import { mainResultText, identifyInput } from './helpers.js';
+import { mainResultText, identifyInput, navTab } from './helpers.js';
 
 test('识别凯撒密文 KHOOR → HELLO', async ({ page }) => {
   await page.goto('/');
+  await navTab(page, /自动识别/).click();
   await expect(identifyInput(page)).toBeVisible();
 
   await identifyInput(page).fill('KHOOR');
@@ -14,6 +15,7 @@ test('识别凯撒密文 KHOOR → HELLO', async ({ page }) => {
 
 test('识别 Base64 aGVsbG8=', async ({ page }) => {
   await page.goto('/');
+  await navTab(page, /自动识别/).click();
   await expect(identifyInput(page)).toBeVisible();
 
   await identifyInput(page).fill('aGVsbG8=');

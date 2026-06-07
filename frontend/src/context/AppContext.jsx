@@ -10,7 +10,7 @@ export function AppProvider({ children }) {
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [selectedId, setSelectedId] = useState('caesar');
-  const [page, setPage] = useState('identify');
+  const [page, setPage] = useState('transform');
   const [libraryFocusId, setLibraryFocusId] = useState(null);
   const [transformPrefill, setTransformPrefill] = useState(null);
   const [locale, setLocaleState] = useState(() => loadSettings().locale || detectLocale());

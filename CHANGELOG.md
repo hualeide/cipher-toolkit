@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+### Changed
+
+- 默认首页改为**加解密**；导航顺序调整；自动识别标注为实验功能
+- 新增 [docs/APPLICATION.md](./docs/APPLICATION.md) 说明应用方向与定位
+
 ## [1.0.3] - 2026-06-07
 
 ### Fixed

@@ -2,7 +2,7 @@ export default {
   lang: { zh: '中文', en: 'English', ja: '日本語', ko: '한국어' },
   brand: { title: '暗号ツールキット', algorithms: ' 種類' },
   nav: {
-    identify: '自動識別', transform: '加解密', chain: '連鎖復号',
+    identify: '自動識別（実験）', transform: '加解密', chain: '連鎖復号',
     library: '算法百科', media: 'メディア', settings: '設定',
   },
   loading: '算法ライブラリを読み込み中…',

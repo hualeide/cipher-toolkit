@@ -14,6 +14,8 @@ import TextAnalysisPanel from '../components/TextAnalysisPanel.jsx';
 
 import WelcomePanel from '../components/WelcomePanel.jsx';
 
+import PageHeader from '../components/PageHeader.jsx';
+
 const WELCOME_EXAMPLES = ['KHOOR', 'aGVsbG8=', '.... . .-.. .-.. ---'];
 
 
@@ -79,6 +81,8 @@ export default function IdentifyPage() {
   return (
 
     <div className="page-single identify-page">
+
+      <PageHeader title={t('identify.title')} desc={t('identify.desc')} descShort={t('identify.descShort')} t={t} />
 
       <div className="identify-layout">
 

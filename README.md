@@ -1,8 +1,22 @@
 # 密码学工具箱 (Cipher Toolkit)
 
-> **面向密码爱好者的学习与实验平台** — 无需安装专业软件，在浏览器里即可加解密、自动识别、组合链解密、分析密文统计，并动手玩中文码点密码、古典密码与现代算法。适合 CTF 入门、历史密码学课程、ARG 解谜与自学。
+> **面向密码爱好者的学习与实验平台** — 无需安装专业软件，在浏览器里动手加解密、查百科、试组合链与密文统计。适合密码学课程、CTF 入门、ARG 解谜与自学。**默认首页为加解密**；自动识别为实验功能，仍在打磨。
 
-整合 **98** 种加密/编码/变换方式的全栈 Web 工具，**中文识别**是本项目核心能力之一（和合本/名著语料压测、码点凯撒优先、摩斯繁简电报码等）。
+整合 **98** 种加密/编码/变换方式的全栈 Web 工具；**中文码点密码**与百科式教学是核心特色之一。
+
+## 应用方向
+
+详见 **[docs/APPLICATION.md](./docs/APPLICATION.md)**。简要如下：
+
+| 方向 | 说明 |
+|------|------|
+| **课堂与自学** | 百科 + 双向加解密，理解古典/现代密码原理 |
+| **中文密码实验** | Unicode 码点凯撒/维吉尼亚等，简繁日韩同域 |
+| **CTF / ARG 辅助** | 组合解密、Recipe 分享、密文统计；识别结果需复核 |
+| **趣味与文化** | Journal 密码、Brainfuck、SCP 涂黑等 |
+| **多媒体实验** | 隐写、格式转换等（演示向，非取证级） |
+
+> **不是**生产密码管理器或 HSM。现代算法演示仅供教学；识别页为实验功能，复杂密文请优先组合解密或手动选算法。
 
 **在线仓库**：[github.com/hualeide/cipher-toolkit](https://github.com/hualeide/cipher-toolkit) · **Pages 预览（仅 UI）**：[hualeide.github.io/cipher-toolkit](https://hualeide.github.io/cipher-toolkit/)
 
@@ -32,7 +46,7 @@ docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit
 
 ## 界面预览
 
-![自动识别页](docs/screenshots/home.png)
+![界面预览](docs/screenshots/home.png)（默认首页：加解密）
 
 ---
 
@@ -40,6 +54,7 @@ docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit
 
 | 文档 | 说明 |
 |------|------|
+| **[docs/APPLICATION.md](./docs/APPLICATION.md)** | **应用方向**：定位、默认体验、不是什么 |
 | **[docs/DEMO.md](./docs/DEMO.md)** | **功能演示**：样例密文、API curl、压测命令 |
 | **[docs/IDENTIFY-TECH.md](./docs/IDENTIFY-TECH.md)** | **识别技术**：自然度评分、词典消歧、LLM 重排、容易出现的误区 |
 | **[docs/DESKTOP.md](./docs/DESKTOP.md)** | **Windows 桌面版 `.exe`** 打包与使用 |
@@ -60,7 +75,7 @@ docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit
 |------|------|
 | **学习古典密码** | 凯撒/维吉尼亚/Playfair/Bifid/Trifid 等，带百科原理与名言示例 |
 | **中文加解密** | Unicode 码点凯撒/维吉尼亚/仿射，简繁体、日韩文同域运算 |
-| **CTF / ARG** | 智能识别 + 组合解密 + Recipe 分享（类 CyberChef） |
+| **CTF / ARG** | 组合解密 + Recipe 分享（类 CyberChef）；识别为实验辅助 |
 | **现代密码入门** | AES / ChaCha20 / RSA / 哈希族（演示用，非生产 HSM） |
 | **迷因与流行文化** | 怪诞小镇 Journal 密码、Brainfuck、SCP 涂黑等 |
 | **文件与隐写** | CLI/API 文件加解密、格式转换、PNG LSB 藏文 |
@@ -73,7 +88,8 @@ docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit
 - 每种算法含**原理、步骤、历史、示例**（名言/诗词句库，非占位符）
 - 加解密页与百科双向联动，支持**中/英/日/韩**界面
 
-### 智能识别（中文优先）
+### 智能识别（实验 · 中文优先）
+- **实验功能**，结果需人工复核；复杂多层密文请用组合解密
 - 穷举 + **可读性 / 自然度评分** + **往返校验**（verified）
 - 中文 **字频 + 2/3-gram 语料**（名著/和合本/口语）抑制乱移位误报
 - 英文凯撒 **词典覆盖率** 多移位消歧

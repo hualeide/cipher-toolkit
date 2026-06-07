@@ -2,7 +2,7 @@ export default {
   lang: { zh: '中文', en: 'English', ja: '日本語', ko: '한국어' },
   brand: { title: 'Cipher Toolkit', algorithms: ' ciphers' },
   nav: {
-    identify: 'Auto Detect', transform: 'Transform', chain: 'Chain Decrypt',
+    identify: 'Auto Detect (beta)', transform: 'Transform', chain: 'Chain Decrypt',
     library: 'Encyclopedia', media: 'Media Lab', settings: 'Settings',
   },
   loading: 'Loading cipher library…',
@@ -12,8 +12,8 @@ export default {
   },
   identify: {
     title: 'Auto Detect',
-    desc: 'Paste ciphertext: the system tries all 98 ciphers, ranks by score, and verifies round-trips. Side panel shows entropy, IC, frequency, and Kasiski hints. Confidence reflects readability + verification + gap to runner-up; “Verified” means re-encryption recovers the input.',
-    descShort: 'Paste ciphertext — auto-try 98 ciphers, ranked by score. Stats panel on the right.',
+    desc: '[Experimental — verify results] Paste ciphertext to brute-force 98 ciphers with scoring and round-trip checks. For nested layers, prefer Chain Decrypt or manual Transform. Side panel: entropy, IC, frequency, Kasiski.',
+    descShort: 'Experimental: paste ciphertext to rank ciphers; verify manually for hard cases.',
     inputLabel: 'Ciphertext / encoded text',
     inputPh: 'Paste suspicious text — no cipher selection needed…',
     conclusion: 'Conclusion',
@@ -58,7 +58,7 @@ export default {
   },
   transform: {
     title: 'Transform',
-    desc: 'Bidirectional transform with chosen cipher and params; CJK-aware Caesar/Vigenère etc. Encyclopedia block shows principle, steps, and examples. One-way hashes: plaintext → digest only.',
+    desc: 'Main learning entry: bidirectional transform with chosen cipher and params; CJK-aware Caesar/Vigenère etc. Encyclopedia block shows principle, steps, and examples. One-way hashes: plaintext → digest only.',
     descShort: 'Pick a cipher, set params — plaintext and ciphertext sync both ways.',
     plain: 'Plaintext',
     cipher: 'Ciphertext',

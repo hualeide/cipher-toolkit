@@ -2,7 +2,7 @@ export default {
   lang: { zh: '中文', en: 'English', ja: '日本語', ko: '한국어' },
   brand: { title: '암호 도구箱', algorithms: '개 알고리즘' },
   nav: {
-    identify: '자동 식별', transform: '加解密', chain: '연쇄 복호',
+    identify: '자동 식별 (실험)', transform: '加解密', chain: '연쇄 복호',
     library: '算法 백과', media: '멀티미디어', settings: '설정',
   },
   loading: '알고리즘 라이브러리 로딩…',

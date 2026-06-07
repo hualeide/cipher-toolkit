@@ -21,7 +21,7 @@ const PAGES = {
 
 function AppBody() {
   const { page, loading, t } = useApp();
-  const Page = PAGES[page] || IdentifyPage;
+  const Page = PAGES[page] || TransformPage;
 
   if (loading) {
     return (

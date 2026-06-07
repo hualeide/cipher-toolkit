@@ -1,7 +1,7 @@
 import { useApp } from '../context/AppContext.jsx';
 import LangSwitcher from './LangSwitcher.jsx';
 
-const NAV_IDS = ['identify', 'transform', 'chain', 'library', 'media', 'settings'];
+const NAV_IDS = ['transform', 'identify', 'chain', 'library', 'media', 'settings'];
 
 export default function NavBar() {
   const { page, setPage, count, t } = useApp();
@@ -11,7 +11,7 @@ export default function NavBar() {
       <button
         type="button"
         className="nav-brand"
-        onClick={() => setPage('identify')}
+        onClick={() => setPage('transform')}
         aria-label={t('brand.title')}
       >
         <span className="brand-title">{t('brand.title')}</span>

@@ -1,9 +1,7 @@
 import { test, expect } from '@playwright/test';
-import { navTab } from './helpers.js';
 
 test('加解密页凯撒加密 HELLO → KHOOR', async ({ page }) => {
   await page.goto('/');
-  await navTab(page, /加解密/).click();
   await expect(page.getByRole('heading', { name: '凯撒密码', level: 2 })).toBeVisible();
 
   await page.getByPlaceholder('搜索加密方式…').fill('凯撒');
@@ -19,7 +17,6 @@ test('加解密页凯撒加密 HELLO → KHOOR', async ({ page }) => {
 
 test('加解密页双向解密 KHOOR → HELLO', async ({ page }) => {
   await page.goto('/');
-  await navTab(page, /加解密/).click();
   await expect(page.getByRole('heading', { name: '凯撒密码', level: 2 })).toBeVisible();
 
   await page.getByPlaceholder('搜索加密方式…').fill('凯撒');
