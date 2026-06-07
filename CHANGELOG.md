@@ -4,11 +4,21 @@
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-06-07
+
+### Fixed
+
+- Windows 桌面版：双击 exe 自动弹出 cmd 窗口；浏览器打开更可靠；日志写入 exe 同目录 `desktop.log`
+
 ### Changed
 
-- Windows 桌面版：双击 exe 启动，见 [docs/DESKTOP.md](./docs/DESKTOP.md)
+- Release 提供 `CipherToolkit-win64.zip`（含 `CipherToolkit.cmd` 推荐启动方式），见 [docs/DESKTOP.md](./docs/DESKTOP.md)
 
-### Added (Unreleased prior)
+## [1.0.2] - 2026-06-07
+
+### Added
+
+- Windows 桌面版：caxa 打包 `CipherToolkit.exe`，GitHub Release 附件
 
 ### Added
 

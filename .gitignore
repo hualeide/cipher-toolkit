@@ -11,3 +11,4 @@ blob-report/
 .codegraph/
 backend/data/*.json
 release/
+desktop.log

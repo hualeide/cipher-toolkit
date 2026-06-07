@@ -40,7 +40,15 @@ $exePath = 'release/CipherToolkit.exe'
 
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+Copy-Item scripts/CipherToolkit.cmd release/CipherToolkit.cmd -Force
+$zipPath = 'release/CipherToolkit-win64.zip'
+if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
+Compress-Archive -Path release/CipherToolkit.exe, release/CipherToolkit.cmd -DestinationPath $zipPath
+
 Write-Host ''
-Write-Host "Done: $(Resolve-Path $exePath)" -ForegroundColor Green
-Write-Host 'Double-click exe to open browser. Close console window to stop.'
+Write-Host "Done:" -ForegroundColor Green
+Write-Host "  $(Resolve-Path $exePath)"
+Write-Host "  $(Resolve-Path release/CipherToolkit.cmd)  (recommended: visible console)"
+Write-Host "  $(Resolve-Path $zipPath)  (for GitHub Release)"
+Write-Host 'Double-click .cmd or .exe — browser opens automatically. Close console to stop.'
 Write-Host ''
