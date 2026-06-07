@@ -41,7 +41,7 @@ docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit
 | 文档 | 说明 |
 |------|------|
 | **[docs/DEMO.md](./docs/DEMO.md)** | **功能演示**：样例密文、API curl、压测命令 |
-| **[docs/IDENTIFY-TECH.md](./docs/IDENTIFY-TECH.md)** | **识别技术**：自然度评分、词典消歧、LLM 重排、**常见误解说明** |
+| **[docs/IDENTIFY-TECH.md](./docs/IDENTIFY-TECH.md)** | **识别技术**：自然度评分、词典消歧、LLM 重排、容易出现的误区 |
 | [DEPLOY.md](./DEPLOY.md) | 部署（Docker / Render / Pages） |
 | [BENCHMARKS.md](./BENCHMARKS.md) | 识别压测与通过率 |
 | [CONTRIBUTING.md](./CONTRIBUTING.md) | 贡献指南 |

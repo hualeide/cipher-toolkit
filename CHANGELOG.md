@@ -6,8 +6,7 @@
 
 ### Changed
 
-- 文档：[docs/IDENTIFY-TECH.md](./docs/IDENTIFY-TECH.md) 增加「常见误解 / 项目边界 / 对外介绍口径」
-- [docs/DEMO.md](./docs/DEMO.md) 增加向老师/答辩介绍要点
+- 文档：[docs/IDENTIFY-TECH.md](./docs/IDENTIFY-TECH.md) 增加「容易出现的误区」
 
 ### Added
 
