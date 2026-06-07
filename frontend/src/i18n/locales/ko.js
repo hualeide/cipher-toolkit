@@ -6,7 +6,7 @@ export default {
     library: '算法 백과', media: '멀티미디어', settings: '설정',
   },
   loading: '알고리즘 라이브러리 로딩…',
-  common: { copy: '복사', copied: '복사됨 ✓', run: '실행', analyzing: '분석 중…', learnMore: '자세히', collapse: '접기', skipToContent: '본문으로 건너뛰기' },
+  common: { copy: '복사', copied: '복사됨 ✓', paste: '붙여넣기', pasted: '붙여넣음 ✓', run: '실행', analyzing: '분석 중…', learnMore: '자세히', collapse: '접기', skipToContent: '본문으로 건너뛰기' },
   multilingual: {
     banner: '中文 · English · 日本語 · 한국어(한글) 지원 — 카이사르/비제네르 등은 Unicode 코드 포인트에서 암호화.',
   },

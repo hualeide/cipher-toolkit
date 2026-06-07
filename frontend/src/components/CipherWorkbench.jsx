@@ -1,5 +1,6 @@
 import ParamFields from '../components/ParamFields.jsx';
 import CopyButton from '../components/CopyButton.jsx';
+import PasteButton from '../components/PasteButton.jsx';
 import CipherInfo from '../components/CipherInfo.jsx';
 import PageHeader from '../components/PageHeader.jsx';
 import { useApp } from '../context/AppContext.jsx';
@@ -42,10 +43,13 @@ export default function CipherWorkbench({
         <ParamFields cipher={selected} params={params} onChange={onParamChange} />
         <div className="io-grid">
           <div className="text-area-wrap">
-            <label className="output-label">
-              <span>{bidirectional ? t('transform.plain') : t(`${m}.input`)}</span>
-              {bidirectional && <CopyButton text={plain} />}
-            </label>
+            <div className="text-area-head">
+              <span className="text-area-title">{bidirectional ? t('transform.plain') : t(`${m}.input`)}</span>
+              <div className="text-area-actions">
+                <PasteButton onPaste={bidirectional ? onPlainChange : onInputChange} />
+                <CopyButton text={bidirectional ? plain : input} />
+              </div>
+            </div>
             <textarea
               value={bidirectional ? plain : input}
               onChange={(e) => (bidirectional ? onPlainChange(e.target.value) : onInputChange(e.target.value))}
@@ -55,10 +59,13 @@ export default function CipherWorkbench({
             />
           </div>
           <div className="text-area-wrap">
-            <label className="output-label">
-              <span>{bidirectional ? t('transform.cipher') : t(`${m}.output`)}</span>
-              <CopyButton text={bidirectional ? cipher : output} />
-            </label>
+            <div className="text-area-head">
+              <span className="text-area-title">{bidirectional ? t('transform.cipher') : t(`${m}.output`)}</span>
+              <div className="text-area-actions">
+                {bidirectional && <PasteButton onPaste={onCipherChange} />}
+                <CopyButton text={bidirectional ? cipher : output} />
+              </div>
+            </div>
             <textarea
               value={bidirectional ? cipher : output}
               onChange={bidirectional ? (e) => onCipherChange(e.target.value) : undefined}

@@ -6,7 +6,7 @@ export default {
     library: '算法百科', media: '多媒体', settings: '设置',
   },
   loading: '加载算法库…',
-  common: { copy: '复制', copied: '已复制', run: '执行', analyzing: '分析中…', learnMore: '展开说明', collapse: '收起', skipToContent: '跳到主内容' },
+  common: { copy: '复制', copied: '已复制', paste: '粘贴', pasted: '已粘贴', run: '执行', analyzing: '分析中…', learnMore: '展开说明', collapse: '收起', skipToContent: '跳到主内容' },
   multilingual: {
     banner: '支持中文（简繁）与 English — 凯撒/维吉尼亚等在 Unicode 码点域同步加密；摩斯中文用电报码。',
   },

@@ -6,7 +6,7 @@ export default {
     library: '算法百科', media: 'メディア', settings: '設定',
   },
   loading: '算法ライブラリを読み込み中…',
-  common: { copy: 'コピー', copied: 'コピー済 ✓', run: '実行', analyzing: '分析中…', learnMore: '詳しく', collapse: '閉じる', skipToContent: '本文へスキップ' },
+  common: { copy: 'コピー', copied: 'コピー済 ✓', paste: '貼り付け', pasted: '貼り付け済 ✓', run: '実行', analyzing: '分析中…', learnMore: '詳しく', collapse: '閉じる', skipToContent: '本文へスキップ' },
   multilingual: {
     banner: '中文・English・日本語（かな・漢字）・한국語（ハングル）対応 — シーザー/ヴィジュネル等は Unicode コードポイント域で暗号化。',
   },

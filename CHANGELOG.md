@@ -2,6 +2,20 @@
 
 本文件记录 notable 变更。格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)。
 
+## [Unreleased]
+
+### Added
+
+- 文档：[docs/DEMO.md](./docs/DEMO.md) 功能演示与 API 样例
+- 文档：[docs/IDENTIFY-TECH.md](./docs/IDENTIFY-TECH.md) 识别自然度评分与 LLM 重排说明
+- [docs/demo-samples.json](./docs/demo-samples.json) 结构化演示数据
+- [.env.example](./.env.example) 环境变量模板（含 LLM）
+
+### Changed
+
+- 识别：中文自然度（字频/2-3gram）、英文词典消歧、可选 LLM 重排
+- 前端 UI 打磨：暗色默认、无跳动加载、算法名标题、「自然语言」标签、复制粘贴按钮
+
 ## [1.0.1] - 2026-06-06
 
 ### Added

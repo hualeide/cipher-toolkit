@@ -6,7 +6,7 @@ export default {
     library: 'Encyclopedia', media: 'Media Lab', settings: 'Settings',
   },
   loading: 'Loading cipher library…',
-  common: { copy: 'Copy', copied: 'Copied ✓', run: 'Run', analyzing: 'Analyzing…', learnMore: 'Learn more', collapse: 'Show less', skipToContent: 'Skip to content' },
+  common: { copy: 'Copy', copied: 'Copied ✓', paste: 'Paste', pasted: 'Pasted ✓', run: 'Run', analyzing: 'Analyzing…', learnMore: 'Learn more', collapse: 'Show less', skipToContent: 'Skip to content' },
   multilingual: {
     banner: 'Supports 中文 (Simplified/Traditional) and English — Caesar/Vigenère on Unicode code points; Chinese Morse uses telegraph codes.',
   },

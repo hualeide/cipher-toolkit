@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "description": "识别/加解密演示样例 — 可在 Web UI 粘贴或通过 /api/ciphers/identify 测试",
+  "samples": [
+    {
+      "id": "caesar-en-hello",
+      "title": "英文凯撒 HELLO",
+      "page": "identify",
+      "ciphertext": "KHOOR",
+      "expect": { "cipherId": "caesar", "result": "HELLO", "minConfidence": 70 }
+    },
+    {
+      "id": "base64-hello",
+      "title": "Base64 hello",
+      "page": "identify",
+      "ciphertext": "aGVsbG8=",
+      "expect": { "cipherId": "base64", "result": "hello", "minConfidence": 70 }
+    },
+    {
+      "id": "morse-hello",
+      "title": "摩斯 HELLO",
+      "page": "identify",
+      "ciphertext": ".... . .-.. .-.. ---",
+      "expect": { "cipherId": "morse", "result": "HELLO", "minConfidence": 65 }
+    },
+    {
+      "id": "caesar-zh-nihao",
+      "title": "中文凯撒 你好世界",
+      "page": "identify",
+      "ciphertext": "侸姕乮疤",
+      "expect": { "cipherId": "caesar", "resultContains": "你好", "minConfidence": 65 }
+    },
+    {
+      "id": "rot47-hello",
+      "title": "ROT47 Hello",
+      "page": "identify",
+      "ciphertext": "96==@",
+      "expect": { "cipherId": "rot47", "result": "Hello", "minConfidence": 60 }
+    },
+    {
+      "id": "hex-hello",
+      "title": "十六进制 hello",
+      "page": "identify",
+      "ciphertext": "68656c6c6f",
+      "expect": { "cipherId": "hex", "result": "hello", "minConfidence": 65 }
+    },
+    {
+      "id": "vigenere-meet",
+      "title": "维吉尼亚 MEET AT DAWN",
+      "page": "transform",
+      "cipherId": "vigenere",
+      "params": { "key": "KEY" },
+      "plain": "MEET AT DAWN",
+      "note": "在加解密页选维吉尼亚，密钥 KEY，明文 MEET AT DAWN"
+    },
+    {
+      "id": "chain-base64",
+      "title": "组合链 Base64",
+      "page": "chain",
+      "ciphertext": "aGVsbG8=",
+      "expect": { "result": "hello" }
+    }
+  ]
+}

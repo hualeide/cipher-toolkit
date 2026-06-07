@@ -40,12 +40,16 @@ docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit
 
 | 文档 | 说明 |
 |------|------|
+| **[docs/DEMO.md](./docs/DEMO.md)** | **功能演示**：样例密文、API curl、压测命令 |
+| **[docs/IDENTIFY-TECH.md](./docs/IDENTIFY-TECH.md)** | **识别技术**：自然度评分、词典消歧、LLM 重排 |
 | [DEPLOY.md](./DEPLOY.md) | 部署（Docker / Render / Pages） |
 | [BENCHMARKS.md](./BENCHMARKS.md) | 识别压测与通过率 |
 | [CONTRIBUTING.md](./CONTRIBUTING.md) | 贡献指南 |
 | [CHANGELOG.md](./CHANGELOG.md) | 版本变更 |
 | [SECURITY.md](./SECURITY.md) | 安全政策 |
 | [docs/openapi.yaml](./docs/openapi.yaml) | API 规范（运行时 `/api/openapi.yaml`） |
+| [docs/demo-samples.json](./docs/demo-samples.json) | 结构化演示样例（脚本/教学用） |
+| [.env.example](./.env.example) | 环境变量模板（含 LLM 重排） |
 
 ---
 
@@ -69,7 +73,10 @@ docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit
 - 加解密页与百科双向联动，支持**中/英/日/韩**界面
 
 ### 智能识别（中文优先）
-- 穷举 + **可读性评分** + **往返校验**（verified）
+- 穷举 + **可读性 / 自然度评分** + **往返校验**（verified）
+- 中文 **字频 + 2/3-gram 语料**（名著/和合本/口语）抑制乱移位误报
+- 英文凯撒 **词典覆盖率** 多移位消歧
+- 可选 **LLM 重排**（`IDENTIFY_LLM_RERANK=1`，见 [docs/IDENTIFY-TECH.md](./docs/IDENTIFY-TECH.md)）
 - 乱汉字密文优先 **Unicode 码点凯撒**，抑制 upside-down/RC4 等误报
 - 摩斯中文模式：标准电报码 + **繁简映射**（和合本繁体经节）
 

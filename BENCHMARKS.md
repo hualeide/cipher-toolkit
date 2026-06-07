@@ -8,10 +8,17 @@
 | `test-identify-roundtrip.js` | 78 算法 × 10 轮，置信度 ≥95 | **780/780** |
 | `test-identify.js` | 28 条手工/CTF 用例 | **28/28** |
 | `test-identify-zh-slang.js` | 口语库 33969 条抽样 | **6/6** |
+| `test-identify-zh-samples.js` | 中文句 × 可识别算法（`ZH_SAMPLES=5` 抽样） | **173/173** |
+| `test-identify-polish.js` | 打磨用例（含英文凯撒消歧） | 通过 |
 | `test-identify-confidence.js` | 置信度间隔 | 通过 |
 | `test-chinese-all.js` | 全算法中文 | **85/85** |
 
 运行：`npm test`
+
+## 演示与算法说明
+
+- 粘贴即用样例与 API 演示：[docs/DEMO.md](./docs/DEMO.md)
+- 识别评分、自然度语料、LLM 重排原理：[docs/IDENTIFY-TECH.md](./docs/IDENTIFY-TECH.md)
 
 ## 和合本全文压测（慢）
 

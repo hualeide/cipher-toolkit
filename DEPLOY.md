@@ -170,6 +170,12 @@ Vite 将 `/api` 代理到 3001，无需额外配置。
 | `SERVE_FRONTEND` | 未设置 | 设为 `1` 时托管 `frontend/dist` |
 | `VITE_API_BASE` | 空 | 仅 **构建前端** 时用，指向外部 API（Pages 场景） |
 | `BASE_PATH` | `/` | 仅构建时用，Pages 为 `/cipher-toolkit/` |
+| `IDENTIFY_LLM_RERANK` | 未设置 | 设为 `1` 启用识别 LLM 重排 |
+| `OPENAI_API_KEY` | — | LLM API 密钥（启用重排时必填） |
+| `IDENTIFY_LLM_BASE_URL` | `https://api.openai.com/v1` | OpenAI 兼容 API 地址 |
+| `IDENTIFY_LLM_MODEL` | `gpt-4o-mini` | 重排所用模型 |
+
+LLM 重排为**可选**能力，默认关闭；原理与融合公式见 [docs/IDENTIFY-TECH.md](./docs/IDENTIFY-TECH.md)。可复制 [.env.example](./.env.example) 为 `.env` 后填入密钥。
 
 ---
 

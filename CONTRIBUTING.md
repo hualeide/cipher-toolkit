@@ -4,7 +4,7 @@
 
 ## 开始之前
 
-1. 阅读 [README.md](./README.md) 与 [DEPLOY.md](./DEPLOY.md)
+1. 阅读 [README.md](./README.md)、[DEPLOY.md](./DEPLOY.md)、[docs/DEMO.md](./docs/DEMO.md)
 2. Fork 仓库并创建分支（如 `fix/morse-trad`、`feat/cipher-xxx`）
 3. 本地安装：`npm run install:all`
 
@@ -27,8 +27,10 @@ npm run test:e2e     # Playwright 前端 E2E
 
 ### 识别改进
 
+- 算法原理与 LLM 重排说明见 [docs/IDENTIFY-TECH.md](./docs/IDENTIFY-TECH.md)
 - 优先写/改测试用例（`test-identify*.js`）
 - 中文语料压测：`node backend/test-identify-bible-zh.js`（慢，可选 `BIBLE_LIMIT=500`）
+- 抽样快测：`ZH_SAMPLES=5 node backend/test-identify-zh-samples.js`
 - 勿为单条用例破坏全局排序；参考 `ID_ALIASES` 与 verified 逻辑
 
 ### 前端
