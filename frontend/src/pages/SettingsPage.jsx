@@ -1,6 +1,7 @@
 import { useSettings } from '../hooks/useSettings.js';
 import { useApp } from '../context/AppContext.jsx';
 import { LOCALES } from '../i18n/index.js';
+import PageHeader from '../components/PageHeader.jsx';
 
 export default function SettingsPage() {
   const { settings, setSettings, resetSettings } = useSettings();
@@ -19,10 +20,7 @@ export default function SettingsPage() {
 
   return (
     <div className="page-single settings-page">
-      <div className="page-header">
-        <h2>{t('settings.title')}</h2>
-        <p>{t('settings.desc')}</p>
-      </div>
+      <PageHeader title={t('settings.title')} desc={t('settings.desc')} t={t} />
 
       <div className="panel settings-group">
         <h3>{t('settings.language')}</h3>

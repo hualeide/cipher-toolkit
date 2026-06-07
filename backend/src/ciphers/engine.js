@@ -115,15 +115,22 @@ export function morseDecode(text, variant = 'auto') {
   }
 
   if (trimmed.includes(' / ')) {
-    return trimmed.split(' / ').map((seg) => decodeMorseSegment(seg, mode)).join('');
+    return polishMorsePlaintext(trimmed.split(' / ').map((seg) => decodeMorseSegment(seg, mode)).join(''));
   }
 
-  return decodeMorseSegment(trimmed, mode);
+  return polishMorsePlaintext(decodeMorseSegment(trimmed, mode));
 }
 
-/** 摩斯明文比对（标点归一 + 繁简归一） */
+function polishMorsePlaintext(text) {
+  let s = String(text);
+  s = s.replace(/\((\d+)\)/g, '$1');
+  s = s.replace(/^([A-Z]{2,})(?=[\u4e00-\u9fff（(])/u, (m) => m.charAt(0) + m.slice(1).toLowerCase());
+  return s;
+}
+
+/** 摩斯明文比对（标点归一 + 繁简归一 + 拉丁大小写不敏感） */
 export function morsePlainEqual(a, b) {
-  const norm = (s) => normalizeTradSimp(String(s).replace(/[，。！？、；：,\.!?;\s]/g, ''));
+  const norm = (s) => normalizeTradSimp(String(s).replace(/[，。！？、；：,\.!?;\s()（）]/g, '')).toLowerCase();
   return norm(a) === norm(b);
 }
 
@@ -429,10 +436,20 @@ export function binaryDecode(text) {
 }
 
 export function hexEncode(text) {
-  return [...text].map((ch) => ch.charCodeAt(0).toString(16).padStart(2, '0')).join(' ');
+  return [...text].map((ch) => {
+    const cp = ch.codePointAt(0);
+    return cp.toString(16).padStart(cp <= 0xff ? 2 : 4, '0');
+  }).join(' ');
 }
 
 export function hexDecode(text) {
+  const parts = text.trim().split(/\s+/).filter(Boolean);
+  if (parts.length > 1 && parts.every((p) => /^[0-9a-fA-F]{1,4}$/.test(p))) {
+    return parts.map((p) => String.fromCodePoint(parseInt(p, 16))).join('');
+  }
+  if (parts.length && parts.every((p) => /^[0-9a-fA-F]{3,4}$/.test(p))) {
+    return parts.map((p) => String.fromCodePoint(parseInt(p, 16))).join('');
+  }
   const clean = text.replace(/\s+/g, '');
   let out = '';
   for (let i = 0; i < clean.length; i += 2) {
@@ -877,19 +894,30 @@ export function rotAll(text, n, decrypt = false) {
 }
 
 export function quotedPrintableEncode(text) {
-  return [...text].map((ch) => {
-    const c = ch.charCodeAt(0);
-    if (c >= 33 && c <= 126 && ch !== '=') return ch;
-    if (ch === ' ') return ' ';
-    if (ch === '\t') return '\t';
-    if (ch === '\n') return '\n';
-    const hex = c.toString(16).toUpperCase().padStart(2, '0');
-    return `=${hex}`;
-  }).join('');
+  const bytes = Buffer.from(text, 'utf8');
+  let out = '';
+  for (const b of bytes) {
+    if (b >= 33 && b <= 126 && b !== 61) out += String.fromCharCode(b);
+    else if (b === 32) out += ' ';
+    else if (b === 9) out += '\t';
+    else if (b === 10) out += '\n';
+    else out += `=${b.toString(16).toUpperCase().padStart(2, '0')}`;
+  }
+  return out;
 }
 
 export function quotedPrintableDecode(text) {
-  return text.replace(/=\r?\n/g, '').replace(/=([0-9A-Fa-f]{2})/g, (_, h) => String.fromCharCode(parseInt(h, 16)));
+  const bytes = [];
+  const cleaned = text.replace(/=\r?\n/g, '');
+  for (let i = 0; i < cleaned.length; i++) {
+    if (cleaned[i] === '=' && /^[0-9A-Fa-f]{2}/.test(cleaned.slice(i + 1, i + 3))) {
+      bytes.push(parseInt(cleaned.slice(i + 1, i + 3), 16));
+      i += 2;
+    } else {
+      bytes.push(cleaned.charCodeAt(i));
+    }
+  }
+  return Buffer.from(bytes).toString('utf8');
 }
 
 export function ascii85Encode(text) {
@@ -1025,6 +1053,19 @@ export function scorePlaintext(text) {
   return Math.max(0, Math.min(Math.round(Math.max(score, ml)), 100));
 }
 
+/** 英文词典命中率（0–1），用于凯撒等多移位消歧 */
+export function scoreEnglishLexicon(text) {
+  const words = (String(text || '').toLowerCase().match(/[a-z]+/g) || []);
+  if (!words.length) return 0;
+  let acc = 0;
+  for (const w of words) {
+    if (WORD_SET.has(w)) acc += 1;
+    else if (w.length >= 4) acc -= 0.65;
+    else acc += 0.05;
+  }
+  return Math.max(0, Math.min(1, acc / words.length));
+}
+
 /** 输入本身是否已是可读明文（非密文） */
 export function isLikelyPlaintext(text) {
   const t = text.trim();
@@ -1107,6 +1148,10 @@ const WORD_SET = new Set([
   'being', 'between', 'could', 'every', 'hello', 'little', 'never', 'other', 'place', 'right',
   'should', 'small', 'something', 'still', 'their', 'there', 'these', 'those', 'through',
   'today', 'together', 'under', 'where', 'which', 'while', 'would', 'write',
+  'attack', 'dawn', 'dusk', 'enemy', 'defend', 'message', 'cipher', 'crypto',
+  'covert', 'signal', 'command', 'retreat', 'advance', 'midnight', 'alert',
+  'agent', 'decode', 'encode', 'plain', 'shift', 'secret', 'hidden', 'strike',
+  'quick', 'brown', 'fox', 'lazy', 'jumps', 'dog', 'pack', 'my', 'box',
 ]);
 
 function englishFreqScore(text) {

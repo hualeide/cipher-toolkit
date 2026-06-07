@@ -36,15 +36,17 @@ function multilingualKeyParams(field = 'key') {
 }
 
 function affineParams() {
-  const out = [{ a: 5, b: 7 }];
-  const seen = new Set(['5:7']);
+  const out = [];
+  const seen = new Set();
+  const add = (a, b) => {
+    const k = `${a}:${b}`;
+    if (seen.has(k)) return;
+    seen.add(k);
+    out.push({ a, b });
+  };
+  for (const b of [7, 8, 3, 11, 17, 0, 1, 2, 4, 5, 6, 9, 10, 12, 13, 14, 15]) add(5, b);
   for (const a of COPRIME_A) {
-    for (let b = 0; b < 26; b += 5) {
-      const k = `${a}:${b}`;
-      if (seen.has(k)) continue;
-      seen.add(k);
-      out.push({ a, b });
-    }
+    for (let b = 0; b < 26; b++) add(a, b);
   }
   return out;
 }

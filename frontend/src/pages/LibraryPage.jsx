@@ -3,6 +3,7 @@ import { useApp } from '../context/AppContext.jsx';
 import SeeAlsoLinks from '../components/SeeAlsoLinks.jsx';
 import CipherMetaTags from '../components/CipherMetaTags.jsx';
 import CipherExampleBox from '../components/CipherExampleBox.jsx';
+import PageHeader from '../components/PageHeader.jsx';
 
 export default function LibraryPage() {
   const { ciphers, libraryFocusId, setLibraryFocusId, goToCipher, t } = useApp();
@@ -46,10 +47,12 @@ export default function LibraryPage() {
 
   return (
     <div className="page-single library-page">
-      <div className="page-header">
-        <h2>{t('library.title')}</h2>
-        <p>{t('library.desc')}</p>
-      </div>
+      <PageHeader
+        title={t('library.title')}
+        desc={t('library.desc')}
+        descShort={t('library.descShort')}
+        t={t}
+      />
 
       <div className="panel">
         <input className="search-box" placeholder={t('library.searchPh')} value={search} onChange={(e) => setSearch(e.target.value)} />

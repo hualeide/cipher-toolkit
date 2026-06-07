@@ -2,10 +2,11 @@
  * Unicode 码点密码：多语言字符 → 码点数字域加密 → 再映射为字符输出
  * 支持中文（简繁）、拉丁、标点等 BMP 字符
  */
-import { scoreCorpusMatch, CORPUS_ZH, corpusFragmentsForLength } from './exampleCorpus.js';
+import { scoreCorpusMatch, CORPUS_ZH, corpusFragmentsForLength, isCorpusPlaintext } from './exampleCorpus.js';
 import { scoreBibleMatch, bibleFragmentsForLength, isBiblePlaintext } from './bibleCorpus.js';
 import { scoreClassicMatch, classicFragmentsForLength, isClassicPlaintext } from './classicCorpus.js';
 import { isKnownChinesePhrase, slangCandidatesForLength } from './slangCorpus.js';
+import { scoreZhNaturalness, isShuffledCjkPlaintext, isModernCorpusPlaintext } from './zhFreqCorpus.js';
 
 export const CP_MIN = 32;
 export const CP_MAX = 0xd7af;
@@ -134,6 +135,11 @@ function isFullwidthLatinLike(text) {
 export function looksLikeUnicodeCipherText(text) {
   const chars = [...text.trim()];
   if (chars.length < 2) return false;
+  if (isShuffledCjkPlaintext(text)) return true;
+  if (/X/.test(text) && /[\u4e00-\u9fff]/.test(text) && !isKnownChinesePhrase(text.replace(/X/g, ''))) {
+    const core = text.replace(/X/g, '');
+    if (scorePlaintextMultilingual(core) >= 40 && scoreZhNaturalness(core) < scorePlaintextMultilingual(text) * 0.55) return true;
+  }
   if (isKnownChinesePhrase(text)) return false;
   if (isFullwidthLatinLike(text)) return false;
   const eastAsian = chars.filter((c) => /[\u4e00-\u9fff\u3400-\u4dbf\u3040-\u30ff\uac00-\ud7af\uff00-\uffef]/.test(c)).length;
@@ -149,6 +155,7 @@ const CN_WORDS = [
   '繁体', '繁體', '简体', '簡體', '台湾', '臺灣', '香港', '工具',
   '代码', '程序', '软件', '开发', '容易', '轻而易举', '问题', '回答', '知道', '觉得', '怎么', '为什么',
   '工具', '密码学', '明文', '密文', '消息', '信息', '工作', '生活', '时间', '朋友',
+  '开播', '康神', '程序员', '写代码', '天气',
   '几把', '卧槽', '牛逼', '特么', '扯淡', '楼主', '贴吧', '破防', '躺平', '内卷', '摆烂', '离谱', '绝了', '无语', '服了',
   '吃瓜', '打卡', '真香', '打脸', '上头', '下头', '裂开', '麻了', '醉了', '笑死', '气死', '爱了', '刀了', '发糖',
   '男主', '女主', '穿越', '系统', '金手指', '开挂', '无敌', '秒杀', '碾压', '稳了', '凉了', '炸了',
@@ -156,8 +163,13 @@ const CN_WORDS = [
 
 const CN_COMMON_CHARS = '的一是不了人我在有他这为之大来以个中上们到说国和地也子时道出而要于就下得可你年生自会那后能对着事其里所去行过家十用发天如然作方成者多日都三小么经文体测试验語语國广東與為說時會對代码轻而举易啊吗呢吧了嘛把被给让几卧牛槽特么扯楼贴破躺卷摆谱绝无语服瓜打卡香脸头裂麻醉笑气爱刀糖主穿越统挂敌杀碾稳凉炸';
 
+/** 含常用汉字（口语/语料表） */
+export function hasCommonChineseChars(text, min = 1) {
+  return [...(text || '')].filter((c) => CN_COMMON_CHARS.includes(c)).length >= min;
+}
+
 /** 非日常用字（卦象、扩展区等）—— 解密结果含此类则降权 */
-function isRareCjkChar(ch) {
+export function isRareCjkChar(ch) {
   const cp = ch.codePointAt(0);
   if (cp >= 0x4de0 && cp <= 0x4dff) return true;
   if (cp >= 0x3400 && cp <= 0x4dbf) return true;
@@ -227,10 +239,25 @@ export function scorePlaintextMultilingual(text) {
     if (CN_WORDS.some((w) => text.includes(w))) score += 25;
   }
 
+  const allCjk = [...text].every((c) => /[\u4e00-\u9fff]/.test(c));
+  const len = [...text].length;
+  if (allCjk && len >= 2 && len <= 10) {
+    const ratio = chineseCommonCharRatio(text);
+    if (![...text].some((c) => isRareCjkChar(c))) {
+      score = Math.max(score, ratio >= 0.35 ? 28 + Math.round(ratio * 18) : 26);
+    }
+  }
+
+  if (cjk > 0 && cjk / [...text].length >= 0.35) {
+    const zhNat = scoreZhNaturalness(text);
+    const blended = Math.round(score * 0.55 + zhNat * 0.45);
+    score = Math.max(score, blended);
+  }
+
   return Math.max(0, Math.min(Math.round(score), 100));
 }
 
-const PREFERRED_SHIFTS = [88, 13, 3, 25, 5, 8];
+const PREFERRED_SHIFTS = [13, 3, 25, 5, 8, 88];
 
 /** 快速识别：候选明文反推 + 暴力移位（口语/名言优先，避免小移位误杀） */
 export function bruteUnicodeCpCaesar(text, maxShift = 200) {
@@ -248,19 +275,25 @@ export function bruteUnicodeCpCaesar(text, maxShift = 200) {
     let score = scorePlaintextMultilingual(result);
     if (isKnownChinesePhrase(result)) score += 18;
     const allCjk = [...result].every((c) => /[\u4e00-\u9fff]/.test(c));
+    const rlen = [...result].length;
     const ratio = chineseCommonCharRatio(result);
     if (allCjk && ratio >= 0.85) score += 22;
     else if (allCjk && ratio >= 0.6) score += 12;
+    if (allCjk && rlen >= 2 && rlen <= 10) score += 22;
+    if (allCjk && rlen <= 10 && ![...result].some((c) => isRareCjkChar(c))) score = Math.max(score, 38);
     if ([...result].some((c) => isRareCjkChar(c))) score -= 18;
     const hangul = [...result].filter((c) => /[\uac00-\ud7af]/.test(c)).length;
     const cjk = [...result].filter((c) => /[\u4e00-\u9fff]/.test(c)).length;
     if (hangul > cjk && hangul / Math.max(result.length, 1) > 0.2) score -= 40;
     if (isBiblePlaintext(result)) score += 28;
+    if (isModernCorpusPlaintext(result)) score += 35;
     if (PREFERRED_SHIFTS.includes(shift)) score += 5;
-    const candidate = { shift, result, score };
+    const candidate = { shift, result, score, ratio };
+    const bestRatio = best ? chineseCommonCharRatio(best.result) : 0;
     if (!best || score > best.score
-      || (score === best.score && PREFERRED_SHIFTS.indexOf(shift) >= 0 && PREFERRED_SHIFTS.indexOf(best.shift) < 0)
-      || (score === best.score && shift === 88)) {
+      || (score === best.score && ratio > bestRatio)
+      || (score === best.score && ratio === bestRatio && PREFERRED_SHIFTS.indexOf(shift) >= 0 && PREFERRED_SHIFTS.indexOf(best.shift) < 0)
+      || (score === best.score && shift === 3 && best.shift === 88)) {
       best = candidate;
     }
   };
@@ -270,30 +303,51 @@ export function bruteUnicodeCpCaesar(text, maxShift = 200) {
     if (PREFERRED_SHIFTS.includes(shift)) continue;
     tryShift(shift);
   }
-  if (best && best.score < 32) return null;
+  if (best && best.score < 28) return null;
   return best;
 }
 
 const AFFINE_PARAM_SETS = [
-  { a: 5, b: 7 }, { a: 7, b: 3 }, { a: 11, b: 17 }, { a: 13, b: 9 },
+  { a: 5, b: 7 }, { a: 5, b: 8 }, { a: 7, b: 3 }, { a: 11, b: 17 }, { a: 13, b: 9 },
 ];
 
-/** 码点仿射快检（与 registry 默认同参） */
+const AFFINE_A = [1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25];
+
+/** 码点仿射快检 — 穷举 a×b（中文仿射密文识别） */
 export function bruteUnicodeCpAffine(text) {
   let best = null;
-  for (const { a, b } of AFFINE_PARAM_SETS) {
+  const tryPair = (a, b) => {
     const result = unicodeCpAffine(text, a, b, true);
-    if (result === text) continue;
-    if (unicodeCpAffine(result, a, b, false) !== text) continue;
+    if (result === text) return;
+    if (unicodeCpAffine(result, a, b, false) !== text) return;
     let score = scorePlaintextMultilingual(result);
-    if (isBiblePlaintext(result)) score += 32;
     if (isKnownChinesePhrase(result)) score += 18;
-    const allCjk = [...result].every((c) => /[\u4e00-\u9fff，。！？、；：""''（）\s]/.test(c));
-    if (allCjk) score += 15;
+    if (isBiblePlaintext(result)) score += 32;
+    if (isClassicPlaintext(result)) score += 28;
+    if (isCorpusPlaintext(result)) score += 24;
+    const allCjk = [...result].every((c) => /[\u4e00-\u9fff]/.test(c));
+    const ratio = chineseCommonCharRatio(result);
+    const len = [...result].length;
+    if (allCjk && ratio >= 0.85) score += 22;
+    else if (allCjk && ratio >= 0.6) score += 15;
+    else if (allCjk && len >= 2 && len <= 10) score += 22;
+    if (allCjk && len <= 10 && ![...result].some((c) => isRareCjkChar(c))) score = Math.max(score, 38);
+    if (allCjk && len <= 10 && !hasCommonChineseChars(result, 1)
+      && !isKnownChinesePhrase(result) && !isCorpusPlaintext(result)) score -= 30;
+    if ([...result].some((c) => isRareCjkChar(c))) score -= 15;
     const candidate = { a, b, result, score };
-    if (!best || score > best.score) best = candidate;
+    if (!best || score > best.score
+      || (score === best.score && a === 5 && (b === 8 || b === 7))) {
+      best = candidate;
+    }
+  };
+
+  for (const { a, b } of AFFINE_PARAM_SETS) tryPair(a, b);
+  for (const a of AFFINE_A) {
+    for (let b = 0; b < 26; b++) tryPair(a, b);
   }
-  if (best && best.score < 35) return null;
+  if (best && best.score < 45 && !isKnownChinesePhrase(best.result) && !isCorpusPlaintext(best.result)) return null;
+  if (best && !hasCommonChineseChars(best.result, 1) && !isKnownChinesePhrase(best.result) && !isCorpusPlaintext(best.result)) return null;
   return best;
 }
 
@@ -425,7 +479,7 @@ export function bruteUnicodeCpVigenereShort(text) {
 
   const guided = tryUnicodeCpVigenereFromCandidates(text, plainCandidatesForLength(len));
   if (guided) return guided;
-  if (len > 3) return null;
+  if (len > 2) return null;
 
   let best = null;
   const tryKey = (key) => {

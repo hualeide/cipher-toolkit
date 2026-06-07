@@ -6,15 +6,16 @@ export default {
     library: '算法百科', media: '多媒体', settings: '设置',
   },
   loading: '加载算法库…',
-  common: { copy: '复制', copied: '已复制 ✓', run: '执行', analyzing: '正在分析…' },
+  common: { copy: '复制', copied: '已复制', run: '执行', analyzing: '分析中…', learnMore: '展开说明', collapse: '收起', skipToContent: '跳到主内容' },
   multilingual: {
     banner: '支持中文（简繁）与 English — 凯撒/维吉尼亚等在 Unicode 码点域同步加密；摩斯中文用电报码。',
   },
   identify: {
     title: '自动识别',
     desc: '粘贴密文即可：系统穷举 98 种算法、评分排序，并做往返校验。右侧密文分析提供熵/IC/频率/Kasiski 等统计线索。置信度反映「可读性 + 校验 + 与次优差距」；「已校验」表示加密后能还原原密文。',
+    descShort: '粘贴密文，穷举算法并排序；右侧可看熵、IC 等统计。',
     inputLabel: '输入密文 / 编码文本',
-    inputPh: '粘贴可疑文本，无需选择算法…',
+    inputPh: '粘贴密文…',
     conclusion: '识别结论',
     best: '最可能的结果',
     what: '这是什么？',
@@ -27,6 +28,8 @@ export default {
     result: '解密结果',
     others: '其他可能',
     empty: '未能识别已知加密方式。可尝试「组合解密」或手动选择算法。',
+    welcomeTitle: '样例',
+    welcomeHint: '点一条填入，或直接粘贴密文',
     confidence: '置信度',
     params: '参数',
     irreversible: '不可逆',
@@ -56,6 +59,7 @@ export default {
   transform: {
     title: '加解密',
     desc: '选定算法与参数后双向转换：凯撒/维吉尼亚等支持中英日韩；百科区展示原理、步骤与示例。单向哈希仅支持明文→摘要。',
+    descShort: '选算法、设参数，明文密文双向联动；下方可看原理与示例。',
     plain: '明文',
     cipher: '密文',
     plainPh: '输入明文，右侧自动出密文…',
@@ -78,6 +82,7 @@ export default {
   chain: {
     title: '组合解密',
     desc: '多层嵌套密文专用。自动探测：逐层识别并拼接链（如 Base64→ROT13→凯撒）。手动链：自选步骤顺序执行；Recipe 可保存/分享解密流水线（类 CyberChef），链接 #recipe=… 可导入步骤。',
+    descShort: '自动逐层解密嵌套密文，或手动编排步骤；支持 Recipe 保存与分享。',
     inputLabel: '输入密文', inputPh: '粘贴多层加密文本…', loading: '分析组合链…', empty: '未找到有效解密链',
     steps: '步骤', result: '最终结果', goTransform: '在加解密中验证',
     manualTitle: '手动组合解密',
@@ -92,7 +97,8 @@ export default {
   },
   library: {
     title: '算法百科',
-    desc: '98 种算法原理详解：工作方式、操作步骤、加解密示例、历史来源与相关算法跳转。古典（凯撒/维吉尼亚/Bifid/Trifid/Four-square）、编码（Base64/JWT）、现代加密与怪诞小镇专题均有收录。',
+    desc: '98 种算法原理详解：工作方式、操作步骤、公式与趣闻。含 SOJSON 等在线工具常见的 AES/DES/3DES、RC4、MD5/SHA、PBKDF2 对称与摘要，以及古典密码、编码与怪诞小镇专题。',
+    descShort: '含对称加密、哈希摘要与古典密码 — 原理、步骤、示例',
     searchPh: '搜索算法、原理、怪诞小镇…', all: '全部',
     principle: '原理详解', steps: '操作步骤', origin: '来源', trivia: '趣闻', usage: '使用说明',
     related: '相关算法', params: '可调参数', goTransform: '去加解密',
@@ -164,10 +170,12 @@ export default {
   picker: { searchPh: '搜索加密方式…', favorites: '收藏', favToggle: '收藏/取消' },
   langs: {
     supportTitle: '支持语言',
+    natural: '自然语言',
+    naturalTitle: '支持 Unicode 自然语言文本（含中文、英文等）',
     en: '英', zh: '中', ja: '日', ko: '韩',
   },
   errors: {
-    langNotSupported: '「{cipher}」不支持{scripts}文本，请选择带中/日/韩标签的算法，或使用 Base64 等通用编码。',
+    langNotSupported: '「{cipher}」不支持{scripts}文本，请选择带「自然语言」标签的算法，或使用 Base64 等通用编码。',
   },
   tags: {
     keyRequired: '密钥',

@@ -6,13 +6,14 @@ export default {
     library: 'Encyclopedia', media: 'Media Lab', settings: 'Settings',
   },
   loading: 'Loading cipher library…',
-  common: { copy: 'Copy', copied: 'Copied ✓', run: 'Run', analyzing: 'Analyzing…' },
+  common: { copy: 'Copy', copied: 'Copied ✓', run: 'Run', analyzing: 'Analyzing…', learnMore: 'Learn more', collapse: 'Show less', skipToContent: 'Skip to content' },
   multilingual: {
     banner: 'Supports 中文 (Simplified/Traditional) and English — Caesar/Vigenère on Unicode code points; Chinese Morse uses telegraph codes.',
   },
   identify: {
     title: 'Auto Detect',
     desc: 'Paste ciphertext: the system tries all 98 ciphers, ranks by score, and verifies round-trips. Side panel shows entropy, IC, frequency, and Kasiski hints. Confidence reflects readability + verification + gap to runner-up; “Verified” means re-encryption recovers the input.',
+    descShort: 'Paste ciphertext — auto-try 98 ciphers, ranked by score. Stats panel on the right.',
     inputLabel: 'Ciphertext / encoded text',
     inputPh: 'Paste suspicious text — no cipher selection needed…',
     conclusion: 'Conclusion',
@@ -27,6 +28,8 @@ export default {
     result: 'Decrypted result',
     others: 'Other possibilities',
     empty: 'No known cipher matched. Try Chain Decrypt or pick a cipher manually.',
+    welcomeTitle: 'Paste ciphertext to auto-detect',
+    welcomeHint: 'Try a sample below, or paste CTF / ARG text',
     confidence: 'confidence',
     params: 'Params',
     irreversible: 'Irreversible',
@@ -56,6 +59,7 @@ export default {
   transform: {
     title: 'Transform',
     desc: 'Bidirectional transform with chosen cipher and params; CJK-aware Caesar/Vigenère etc. Encyclopedia block shows principle, steps, and examples. One-way hashes: plaintext → digest only.',
+    descShort: 'Pick a cipher, set params — plaintext and ciphertext sync both ways.',
     plain: 'Plaintext',
     cipher: 'Ciphertext',
     plainPh: 'Enter plaintext; ciphertext appears on the right…',
@@ -78,6 +82,7 @@ export default {
   chain: {
     title: 'Chain Decrypt',
     desc: 'For nested ciphertext. Auto-detect: peel layers and build chains (e.g. Base64→ROT13→Caesar). Manual chain: run your own step order; Recipe saves/shares pipelines (CyberChef-style) — #recipe=… links import steps.',
+    descShort: 'Peel nested layers automatically, or build a manual decrypt chain. Recipes can be saved and shared.',
     inputLabel: 'Ciphertext', inputPh: 'Paste multi-layer ciphertext…', loading: 'Analyzing chains…', empty: 'No valid chain found',
     steps: 'Steps', result: 'Final result', goTransform: 'Open in Transform',
     manualTitle: 'Manual chain decrypt',
@@ -93,6 +98,7 @@ export default {
   library: {
     title: 'Cipher Encyclopedia',
     desc: 'Principles for all 98 ciphers: how it works, steps, examples, history, and related links. Classical (Caesar/Vigenère/Bifid/Trifid/Four-square), encodings (Base64/JWT), modern crypto, and Gravity Falls specials.',
+    descShort: '98 ciphers — principles, steps, examples. Expand any card or jump to Transform.',
     searchPh: 'Search ciphers, Gravity Falls…', all: 'All',
     principle: 'How it works', steps: 'Steps', origin: 'Origin', trivia: 'Trivia', usage: 'Usage',
     related: 'Related', params: 'Parameters', goTransform: 'Open transform',
@@ -164,10 +170,12 @@ export default {
   picker: { searchPh: 'Search ciphers…', favorites: 'Favorites', favToggle: 'Toggle favorite' },
   langs: {
     supportTitle: 'Languages',
+    natural: 'Natural language',
+    naturalTitle: 'Supports Unicode natural-language text (incl. CJK, Latin, etc.)',
     en: 'EN', zh: 'ZH', ja: 'JA', ko: 'KO',
   },
   errors: {
-    langNotSupported: '「{cipher}」 does not support {scripts} text. Pick a cipher tagged ZH/JA/KO, or use Base64 and other universal encodings.',
+    langNotSupported: '「{cipher}」 does not support {scripts} text. Pick a cipher tagged “Natural language”, or use Base64 and other universal encodings.',
   },
   tags: {
     keyRequired: 'Key',

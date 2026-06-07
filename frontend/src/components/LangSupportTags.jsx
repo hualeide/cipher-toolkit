@@ -5,11 +5,9 @@ export default function LangSupportTags({ langs, compact = false }) {
   if (!langs?.length) return null;
 
   return (
-    <span className={`lang-support-tags ${compact ? 'compact' : ''}`} title={t('langs.supportTitle')}>
+    <span className={`lang-support-tags ${compact ? 'compact' : ''}`} title={t('langs.naturalTitle')}>
       {!compact && <span className="lang-support-label">{t('langs.supportTitle')}</span>}
-      {langs.map((code) => (
-        <span key={code} className="lang-tag">{t(`langs.${code}`)}</span>
-      ))}
+      <span className="lang-tag">{t('langs.natural')}</span>
     </span>
   );
 }

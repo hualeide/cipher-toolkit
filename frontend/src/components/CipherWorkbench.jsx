@@ -1,6 +1,7 @@
 import ParamFields from '../components/ParamFields.jsx';
 import CopyButton from '../components/CopyButton.jsx';
 import CipherInfo from '../components/CipherInfo.jsx';
+import PageHeader from '../components/PageHeader.jsx';
 import { useApp } from '../context/AppContext.jsx';
 
 export default function CipherWorkbench({
@@ -28,14 +29,16 @@ export default function CipherWorkbench({
 
   return (
     <main className="page-main">
-      <div className="page-header">
-        <h2>{t(`${ns}.title`)}</h2>
-        <p>{t(`${ns}.desc`)}</p>
-      </div>
+      <PageHeader
+        title={selected?.name || t(`${ns}.title`)}
+        desc={selected?.description || t(`${ns}.desc`)}
+        descShort={selected?.description || t(`${ns}.descShort`)}
+        t={t}
+      />
 
       <div className="multilingual-banner">{t('multilingual.banner')}</div>
 
-      <div className="panel workbench-input-top">
+      <div className="panel workbench-input-top workbench-panel">
         <ParamFields cipher={selected} params={params} onChange={onParamChange} />
         <div className="io-grid">
           <div className="text-area-wrap">
@@ -48,6 +51,7 @@ export default function CipherWorkbench({
               onChange={(e) => (bidirectional ? onPlainChange(e.target.value) : onInputChange(e.target.value))}
               placeholder={bidirectional ? t('transform.plainPh') : t(`${m}.inputPh`)}
               className="tall"
+              aria-busy={busy}
             />
           </div>
           <div className="text-area-wrap">
@@ -61,6 +65,7 @@ export default function CipherWorkbench({
               readOnly={!bidirectional}
               placeholder={bidirectional ? t('transform.cipherPh') : t(`${m}.outputPh`)}
               className="tall"
+              aria-busy={busy}
             />
           </div>
         </div>
@@ -70,11 +75,10 @@ export default function CipherWorkbench({
             {runLabel || t(bidirectional ? 'transform.run' : `${m}.run`)}
           </button>
         )}
-        {busy && <p className="hint">{t('common.analyzing')}</p>}
         {error && <p className="error">{error}</p>}
       </div>
 
-      <CipherInfo cipher={selected} detailed />
+      <CipherInfo cipher={selected} detailed suppressTitle />
     </main>
   );
 }

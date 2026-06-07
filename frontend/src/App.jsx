@@ -1,5 +1,6 @@
 import { AppProvider, useApp } from './context/AppContext.jsx';
 import NavBar from './components/NavBar.jsx';
+import LoadingInline from './components/LoadingInline.jsx';
 import TransformPage from './pages/TransformPage.jsx';
 import IdentifyPage from './pages/IdentifyPage.jsx';
 import ChainPage from './pages/ChainPage.jsx';
@@ -22,12 +23,21 @@ function AppBody() {
   const { page, loading, t } = useApp();
   const Page = PAGES[page] || IdentifyPage;
 
-  if (loading) return <div className="app loading">{t('loading')}</div>;
+  if (loading) {
+    return (
+      <div className="app app-loading">
+        <LoadingInline label={t('loading')} />
+      </div>
+    );
+  }
 
   return (
-    <div className="app">
+    <div className="app app-shell">
+      <a className="skip-link" href="#main-content">{t('common.skipToContent')}</a>
       <NavBar />
-      <Page />
+      <main id="main-content" className="app-main">
+        <Page />
+      </main>
     </div>
   );
 }

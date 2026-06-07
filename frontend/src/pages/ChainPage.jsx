@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSettings } from '../hooks/useSettings.js';
 import { useApp } from '../context/AppContext.jsx';
 import { autoChain } from '../api.js';
 import CopyButton from '../components/CopyButton.jsx';
 import ManualChainPanel from '../components/ManualChainPanel.jsx';
 import TextAnalysisPanel from '../components/TextAnalysisPanel.jsx';
+import PageHeader from '../components/PageHeader.jsx';
 
 export default function ChainPage() {
   const { settings } = useSettings();
@@ -13,22 +14,36 @@ export default function ChainPage() {
   const [chains, setChains] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const chainReq = useRef(0);
 
   useEffect(() => {
-    if (!input.trim()) { setChains([]); return; }
-    setLoading(true);
+    if (!input.trim()) {
+      setChains([]);
+      setLoading(false);
+      setError('');
+      return undefined;
+    }
+
+    const reqId = ++chainReq.current;
     const timer = setTimeout(async () => {
+      setLoading(true);
       try {
         setError('');
         const c = await autoChain(input);
+        if (reqId !== chainReq.current) return;
         setChains(c);
       } catch (e) {
+        if (reqId !== chainReq.current) return;
         setError(e.message);
       } finally {
-        setLoading(false);
+        if (reqId === chainReq.current) setLoading(false);
       }
     }, settings.identifyDebounce);
-    return () => clearTimeout(timer);
+
+    return () => {
+      chainReq.current += 1;
+      clearTimeout(timer);
+    };
   }, [input, settings.identifyDebounce]);
 
   const openInTransform = (chain) => {
@@ -42,10 +57,12 @@ export default function ChainPage() {
 
   return (
     <div className="page-single chain-page">
-      <div className="page-header">
-        <h2>{t('chain.title')}</h2>
-        <p>{t('chain.desc')}</p>
-      </div>
+      <PageHeader
+        title={t('chain.title')}
+        desc={t('chain.desc')}
+        descShort={t('chain.descShort')}
+        t={t}
+      />
 
       <div className="identify-layout">
         <div className="identify-main">
@@ -57,9 +74,9 @@ export default function ChainPage() {
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={t('chain.inputPh')}
                 className="tall"
+                aria-busy={loading}
               />
             </div>
-            {loading && <p className="hint">{t('chain.loading')}</p>}
             {error && <p className="error">{error}</p>}
           </div>
 
@@ -70,7 +87,7 @@ export default function ChainPage() {
           )}
 
           {chains.map((c, i) => (
-            <div key={i} className="panel chain-card">
+            <div key={i} className={`panel chain-card${loading ? ' is-pending' : ''}`}>
               <div className="chain-header">
                 <span className="score-badge conf-high">{c.score}%</span>
                 <div className="chain-steps">

@@ -5,7 +5,8 @@ import {
   decrypt,
   registry,
 } from '../ciphers/registry.js';
-import { identify, autoChainDecrypt, chainDecrypt } from '../services/identifier.js';
+import { identify, identifyAsync, autoChainDecrypt, chainDecrypt } from '../services/identifier.js';
+import { isLlmRerankEnabled } from '../services/identifyLlmRerank.js';
 import { analyzeText } from '../services/textAnalysis.js';
 import { formatConvert, listFormats } from '../services/formatConvert.js';
 import multer from 'multer';
@@ -58,11 +59,15 @@ router.post('/analyze', (req, res) => {
   }
 });
 
-router.post('/identify', (req, res) => {
+router.post('/identify', async (req, res) => {
   try {
-    const { text, limit, minScore, extraKeys } = req.body;
+    const { text, limit, minScore, extraKeys, llmRerank } = req.body;
     if (text === undefined) return res.status(400).json({ error: '需要 text' });
-    const matches = identify(text, { limit: limit || 15, minScore: minScore || 30, extraKeys: extraKeys || [] });
+    const opts = { limit: limit || 15, minScore: minScore || 30, extraKeys: extraKeys || [] };
+    const useLlm = llmRerank ?? isLlmRerankEnabled();
+    const matches = useLlm
+      ? await identifyAsync(text, { ...opts, llmRerank: true })
+      : identify(text, opts);
     res.json({ matches });
   } catch (e) {
     res.status(400).json({ error: e.message });

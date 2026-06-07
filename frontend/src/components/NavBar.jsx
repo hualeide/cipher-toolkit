@@ -3,33 +3,33 @@ import LangSwitcher from './LangSwitcher.jsx';
 
 const NAV_IDS = ['identify', 'transform', 'chain', 'library', 'media', 'settings'];
 
-const NAV_ICONS = {
-  identify: '🔍',
-  transform: '🔐',
-  chain: '🔗',
-  library: '📚',
-  media: '🖼️',
-  settings: '⚙️',
-};
-
 export default function NavBar() {
   const { page, setPage, count, t } = useApp();
 
   return (
-    <nav className="top-nav">
-      <div className="nav-brand">
+    <nav className="top-nav" aria-label={t('brand.title')}>
+      <button
+        type="button"
+        className="nav-brand"
+        onClick={() => setPage('identify')}
+        aria-label={t('brand.title')}
+      >
         <span className="brand-title">{t('brand.title')}</span>
-        <span className="brand-badge">{count}{t('brand.algorithms')}</span>
-      </div>
-      <div className="nav-links">
+        <span className="brand-badge">
+          {count}
+          {t('brand.algorithms')}
+        </span>
+      </button>
+      <div className="nav-links" role="tablist">
         {NAV_IDS.map((id) => (
           <button
             key={id}
             type="button"
+            role="tab"
+            aria-selected={page === id}
             className={`nav-link ${page === id ? 'active' : ''}`}
             onClick={() => setPage(id)}
           >
-            <span className="nav-icon">{NAV_ICONS[id]}</span>
             {t(`nav.${id}`)}
           </button>
         ))}

@@ -3,21 +3,34 @@ import SeeAlsoLinks from './SeeAlsoLinks.jsx';
 import CipherMetaTags from './CipherMetaTags.jsx';
 import CipherExampleBox from './CipherExampleBox.jsx';
 
-export default function CipherInfo({ cipher, detailed = false }) {
+export default function CipherInfo({ cipher, detailed = false, suppressTitle = false }) {
   const { t } = useApp();
   if (!cipher) return null;
   return (
     <div className="info-card">
-      <div className="info-card-head">
-        <h3>{cipher.name}</h3>
-        <div className="info-badges">
-          <span className="info-tag">{cipher.category}</span>
-          {(cipher.langSupport?.length > 0 || cipher.requiresKey) && <CipherMetaTags cipher={cipher} compact />}
-          {cipher.difficulty && <span className={`info-tag diff-${cipher.difficulty}`}>{cipher.difficulty}</span>}
-          {cipher.reversible === false && <span className="info-tag warn">{t('identify.irreversible')}</span>}
+      {!suppressTitle ? (
+        <>
+          <div className="info-card-head">
+            <h3>{cipher.name}</h3>
+            <div className="info-badges">
+              <span className="info-tag">{cipher.category}</span>
+              {(cipher.langSupport?.length > 0 || cipher.requiresKey) && <CipherMetaTags cipher={cipher} compact />}
+              {cipher.difficulty && <span className={`info-tag diff-${cipher.difficulty}`}>{cipher.difficulty}</span>}
+              {cipher.reversible === false && <span className="info-tag warn">{t('identify.irreversible')}</span>}
+            </div>
+          </div>
+          <p className="desc">{cipher.description}</p>
+        </>
+      ) : (
+        <div className="info-card-head info-card-head--compact">
+          <div className="info-badges">
+            <span className="info-tag">{cipher.category}</span>
+            {(cipher.langSupport?.length > 0 || cipher.requiresKey) && <CipherMetaTags cipher={cipher} compact />}
+            {cipher.difficulty && <span className={`info-tag diff-${cipher.difficulty}`}>{cipher.difficulty}</span>}
+            {cipher.reversible === false && <span className="info-tag warn">{t('identify.irreversible')}</span>}
+          </div>
         </div>
-      </div>
-      <p className="desc">{cipher.description}</p>
+      )}
       {detailed && cipher.howItWorks && (
         <div className="detail-block">
           <strong>{t('library.principle')}</strong>

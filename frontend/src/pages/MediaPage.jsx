@@ -5,6 +5,7 @@ import {
   fetchFormats, fetchBlendModes,
 } from '../api/media.js';
 import FileDrop, { ToolHeader, ResultPanel, DownloadBtn, LoadingBar, SliderControl, UploadPreviewBar } from '../components/media/MediaUI.jsx';
+import PageHeader from '../components/PageHeader.jsx';
 
 const TAB_IDS = [
   { id: 'mirage', icon: '🎭', labelKey: 'media.tabs.mirage.label', descKey: 'media.tabs.mirage.desc' },
@@ -370,10 +371,7 @@ export default function MediaPage() {
 
   return (
     <div className="page-single media-page-v2">
-      <div className="media-hero">
-        <h2>{t('media.title')}</h2>
-        <p>{t('media.desc')}</p>
-      </div>
+      <PageHeader title={t('media.title')} desc={t('media.desc')} t={t} />
       <div className="media-tab-bar">
         {tabs.map((item) => (
           <button key={item.id} type="button" className={`media-tab-v2 ${tab === item.id ? 'active' : ''}`} onClick={() => setTab(item.id)}>
