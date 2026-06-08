@@ -59,25 +59,3 @@ export async function analyzeText(text) {
   if (!res.ok) throw new Error(data.error || '分析失败');
   return data;
 }
-
-export async function autoChain(text) {
-  const res = await fetch(apiUrl('/api/ciphers/auto-chain'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text, maxDepth: 2 }),
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || '组合解密失败');
-  return data.chains;
-}
-
-export async function chainDecrypt(text, steps) {
-  const res = await fetch(apiUrl('/api/ciphers/chain-decrypt'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text, steps }),
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || '链解密失败');
-  return data;
-}

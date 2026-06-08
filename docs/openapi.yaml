@@ -89,12 +89,6 @@ paths:
               required: [text]
               properties:
                 text: { type: string }
-  /api/ciphers/auto-chain:
-    post:
-      summary: 自动组合解密
-  /api/ciphers/chain-decrypt:
-    post:
-      summary: 手动链解密
   /api/ciphers/format-convert:
     post:
       summary: 格式互转

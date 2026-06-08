@@ -1,0 +1,21 @@
+/** 密码吧 / CTF 古典密码入门常考算法 ID（与 docs/CTF-CLASSICAL.md 对应） */
+export const CTF_CLASSICAL_IDS = [
+  'caesar',
+  'rot13',
+  'vigenere',
+  'rail-fence',
+  'bacon',
+  'morse',
+  'base64',
+  'hex',
+  'pigpen',
+  'affine',
+  'atbash',
+  'keyboard-shift',
+  'tap-code',
+  'polybius',
+  'semaphore',
+  'a1z26',
+  'url',
+  'rot47',
+];

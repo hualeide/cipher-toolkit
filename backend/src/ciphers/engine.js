@@ -124,7 +124,6 @@ export function morseDecode(text, variant = 'auto') {
 function polishMorsePlaintext(text) {
   let s = String(text);
   s = s.replace(/\((\d+)\)/g, '$1');
-  s = s.replace(/^([A-Z]{2,})(?=[\u4e00-\u9fff（(])/u, (m) => m.charAt(0) + m.slice(1).toLowerCase());
   return s;
 }
 

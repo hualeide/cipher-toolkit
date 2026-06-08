@@ -79,7 +79,8 @@ function normalizeIdentifyPlain(cipherId, result) {
   if (cipherId === 'jwt' && result) {
     try {
       const parsed = JSON.parse(result);
-      if (parsed.payload != null) return String(parsed.payload);
+      if (typeof parsed.payload === 'string') return parsed.payload;
+      if (parsed.payload != null) return JSON.stringify(parsed.payload);
     } catch { /* keep */ }
   }
   return result;
@@ -497,108 +498,6 @@ export async function identifyAsync(text, options = {}) {
 
 
 
-export function autoChainDecrypt(text, maxDepth = 2, topN = 5) {
-
-  if (E.isLikelyPlaintext(text.trim())) return [];
-
-
-
-  const shortText = [...text.trim()].length <= 6;
-
-  const minScore = shortText ? 22 : 32;
-
-  const first = identify(text, { limit: topN, minScore });
-
-  const chains = [];
-
-
-
-  for (const f of first.filter((x) => x.reversible && x.result && !x.alreadyPlaintext)) {
-
-    chains.push({
-
-      chain: [{ id: f.id, params: f.params, name: f.name, paramsLabel: f.paramsLabel }],
-
-      names: [f.name],
-
-      paramsLabels: [f.paramsLabel],
-
-      result: f.result,
-
-      explanation: `第一层：${f.name}（${f.paramsLabel}）`,
-
-      score: f.confidence,
-
-    });
-
-
-
-    if (maxDepth >= 2) {
-
-      const second = identify(f.result, { limit: 3, minScore: 36 });
-
-      for (const s of second.filter((x) => x.reversible && x.result && !x.alreadyPlaintext)) {
-
-        chains.push({
-
-          chain: [
-
-            { id: f.id, params: f.params, name: f.name, paramsLabel: f.paramsLabel },
-
-            { id: s.id, params: s.params, name: s.name, paramsLabel: s.paramsLabel },
-
-          ],
-
-          names: [f.name, s.name],
-
-          paramsLabels: [f.paramsLabel, s.paramsLabel],
-
-          result: s.result,
-
-          explanation: `${f.name}(${f.paramsLabel}) → ${s.name}(${s.paramsLabel})`,
-
-          score: Math.round((f.confidence + s.confidence) / 2),
-
-        });
-
-      }
-
-    }
-
-  }
-
-
-
-  return chains.sort((a, b) => b.score - a.score).slice(0, 10);
-
-}
-
-
-
-export function chainDecrypt(text, steps) {
-
-  let current = text;
-
-  const trace = [];
-
-  for (const step of steps) {
-
-    const cipher = registry.find((c) => c.id === step.id);
-
-    if (!cipher) throw new Error(`未知: ${step.id}`);
-
-    current = cipher.decrypt(current, step.params || {});
-
-    trace.push({ id: step.id, name: cipher.name, params: step.params, output: current });
-
-  }
-
-  return { result: current, steps: trace };
-
-}
-
-
-
 function tryQuickHit(cipherId, text, params = {}, minScore = 50) {
   const c = cipherMap[cipherId];
   if (!c) return null;
@@ -655,6 +554,12 @@ function detectTextEncodings(text) {
   }
 
   if (/^(\d{1,5})(\s+\d{1,5})+$/.test(t)) {
+    const nums = t.split(/\s+/).map(Number);
+    const hasUnicodeCp = nums.some((n) => n > 127);
+    if (hasUnicodeCp) {
+      const hCp = tryEncodingHit('unicode-cp-decimal', text);
+      if (hCp) return [hCp];
+    }
     const hDec = tryEncodingHit('decimal', text);
     if (hDec) return [hDec];
     const hCp = tryEncodingHit('unicode-cp-decimal', text);
@@ -698,7 +603,15 @@ function detectTextEncodings(text) {
     if (h?.verified || h?.rawScore >= 40) return [h];
   }
 
-  if (/^begin\s+\d+\s/mi.test(t) || (/^[`!-o][`!-~]{3,}/.test(t) && !/^[01\s]+$/.test(t) && !/^[0-9a-fA-F\s]+$/.test(t)
+  if (/^(\d{1,2})([-\s]\d{1,2})+$/.test(t)) {
+    for (const id of ['gf-a1z26', 'a1z26']) {
+      const h = tryEncodingHit(id, text, {});
+      if (h?.verified || (h?.rawScore ?? 0) >= 40) return [h];
+    }
+  }
+
+  if (/^begin\s+\d+\s/mi.test(t) || (/^[`!-o][`!-~]{3,}/.test(t) && !/^(\d{1,2})([-\s]\d{1,2})+$/.test(t)
+    && !/^[01\s]+$/.test(t) && !/^[0-9a-fA-F\s]+$/.test(t)
     && !/^[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]+$/.test(t))) {
     const h = tryEncodingHit('uuencode', text);
     if (h) return [h];
@@ -1214,7 +1127,9 @@ function detectUnicodeCpCjk(text) {
   }
   if (caesarHit) {
     candidates.push({ id: 'unicode-cp-caesar', params: { shift: caesarHit.shift }, result: caesarHit.result });
-    candidates.push({ id: 'caesar', params: { shift: caesarHit.shift }, result: caesarHit.result });
+    if (!U.looksLikeUnicodeCipherText(text)) {
+      candidates.push({ id: 'caesar', params: { shift: caesarHit.shift }, result: caesarHit.result });
+    }
     if (caesarHit.shift === 13) {
       candidates.push({ id: 'rot13', params: {}, result: caesarHit.result });
     }
@@ -1570,14 +1485,17 @@ function detectPatterns(text) {
 
 
   if (/^(\d{1,3})(\s+\d{1,3})+$/.test(text.trim())) {
-    try {
-      const result = cipherMap.decimal.decrypt(text);
-      const scored = scoreDecryptCandidate(text, result, { cipherId: 'decimal', params: {} });
-      if (scored.verified || (scored.score >= 35 && isMeaningfulShortCjkPlain(result, scored.readable))) {
-        hits.push(buildHit(cipherMap.decimal, { params: {}, result, id: 'decimal' }, scored, text));
-        return hits;
-      }
-    } catch { /* skip */ }
+    const nums = text.trim().split(/\s+/).map(Number);
+    if (Math.max(...nums) <= 127) {
+      try {
+        const result = cipherMap.decimal.decrypt(text);
+        const scored = scoreDecryptCandidate(text, result, { cipherId: 'decimal', params: {} });
+        if (scored.verified || (scored.score >= 35 && isMeaningfulShortCjkPlain(result, scored.readable))) {
+          hits.push(buildHit(cipherMap.decimal, { params: {}, result, id: 'decimal' }, scored, text));
+          return hits;
+        }
+      } catch { /* skip */ }
+    }
   }
 
   if (/^(\d{2,6})(\s+\d{2,6})+$/.test(text.trim())) {

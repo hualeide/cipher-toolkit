@@ -23,6 +23,7 @@ const suites = [
   { name: '算法示例', file: 'test-examples.js' },
   { name: '多媒体处理', file: 'test-media.js' },
   { name: '格式转换', file: 'test-format-convert.js' },
+  { name: '旗语密码', file: 'test-semaphore.js' },
   { name: '文件加密', file: 'test-file-cipher.js' },
   { name: 'LSB 藏文', file: 'test-stego-lsb.js' },
   // 慢测：node test-identify-classic-zh.js（四大名著，需先 fetch-classics-zh）

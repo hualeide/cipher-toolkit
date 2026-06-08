@@ -27,6 +27,9 @@ export default function CipherWorkbench({
   const bidirectional = mode === 'bidirectional';
   const m = mode === 'decrypt' ? 'decrypt' : 'encrypt';
   const ns = bidirectional ? 'transform' : m;
+  const isPigpen = selected?.id === 'pigpen';
+  const pigpenIn = isPigpen && !bidirectional && m === 'decrypt' ? ' pigpen-font' : '';
+  const pigpenOut = isPigpen && (bidirectional || m === 'encrypt') ? ' pigpen-font' : '';
 
   return (
     <main className="page-main">
@@ -54,7 +57,7 @@ export default function CipherWorkbench({
               value={bidirectional ? plain : input}
               onChange={(e) => (bidirectional ? onPlainChange(e.target.value) : onInputChange(e.target.value))}
               placeholder={bidirectional ? t('transform.plainPh') : t(`${m}.inputPh`)}
-              className="tall"
+              className={`tall${pigpenIn}`}
               aria-busy={busy}
             />
           </div>
@@ -71,7 +74,7 @@ export default function CipherWorkbench({
               onChange={bidirectional ? (e) => onCipherChange(e.target.value) : undefined}
               readOnly={!bidirectional}
               placeholder={bidirectional ? t('transform.cipherPh') : t(`${m}.outputPh`)}
-              className="tall"
+              className={`tall${pigpenOut}`}
               aria-busy={busy}
             />
           </div>

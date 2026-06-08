@@ -262,6 +262,16 @@ export const registry = [
   ...encode('ascii85', 'Ascii85', '编码/表示', 'Adobe Base85，<~ ~> 包裹。', E.ascii85Encode, E.ascii85Decode),
   ...encode('bacon', 'Bacon 密码', '编码/表示', 'Francis Bacon 用 a/b 双字母组表示 5 位。', E.baconEncode, E.baconDecode),
   ...encode('tap-code', 'Tap Code', '编码/表示', '5×5 网格坐标，监狱通信用。', E.tapCodeEncode, E.tapCodeDecode),
+
+  def({
+    id: 'semaphore', name: '旗语密码', category: '编码/表示',
+    description: '国际海事旗语：每个字母用两面旗的方向组合表示。CTF/密码吧视觉题常见。',
+    usage: '加密得方向符号；解密时粘贴符号，每组两面旗以空格分隔。',
+    params: [],
+    getIdentifyParams: () => [{}],
+    encrypt: (t) => S.semaphoreEncode(t),
+    decrypt: (t) => S.semaphoreDecode(t),
+  }),
   ...encode('polybius', 'Polybius 方阵', '编码/表示', '5×5 坐标 (行,列) 表字母。', E.polybiusEncode, E.polybiusDecode),
   ...encode('nato', 'NATO 音标', '编码/表示', 'Alpha Bravo Charlie 军事拼读。', E.natoEncode, E.natoDecode),
   ...encode('braille', '盲文映射', '编码/表示', '字母到 Unicode 盲文字符。', E.brailleEncode, E.brailleDecode),
@@ -683,8 +693,8 @@ export const registry = [
 
   def({
     id: 'pigpen', name: '猪圈密码 (Pigpen)', category: '古典替换',
-    description: 'Masonic 九宫格几何密码，每字母对应格位置如 A1、B2。',
-    usage: '输出空格分隔格坐标。',
+    description: 'Masonic 四格几何密码：每字母对应格子图形符号（见百科对照图）。',
+    usage: '密文区用猪圈字体显示几何符号（底层仍为 A–Z）；仍兼容旧格坐标 A1/B2。',
     params: [],
     encrypt: S.pigpenEncode, decrypt: S.pigpenDecode,
   }),

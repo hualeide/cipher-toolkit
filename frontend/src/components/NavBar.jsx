@@ -1,7 +1,7 @@
 import { useApp } from '../context/AppContext.jsx';
 import LangSwitcher from './LangSwitcher.jsx';
 
-const NAV_IDS = ['transform', 'identify', 'chain', 'library', 'media', 'settings'];
+const NAV_IDS = ['transform', 'identify', 'library', 'media', 'settings'];
 
 export default function NavBar() {
   const { page, setPage, count, t } = useApp();

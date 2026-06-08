@@ -3,7 +3,6 @@ import NavBar from './components/NavBar.jsx';
 import LoadingInline from './components/LoadingInline.jsx';
 import TransformPage from './pages/TransformPage.jsx';
 import IdentifyPage from './pages/IdentifyPage.jsx';
-import ChainPage from './pages/ChainPage.jsx';
 import LibraryPage from './pages/LibraryPage.jsx';
 import MediaPage from './pages/MediaPage.jsx';
 import SettingsPage from './pages/SettingsPage.jsx';
@@ -13,7 +12,6 @@ import './index.css';
 const PAGES = {
   identify: IdentifyPage,
   transform: TransformPage,
-  chain: ChainPage,
   library: LibraryPage,
   media: MediaPage,
   settings: SettingsPage,

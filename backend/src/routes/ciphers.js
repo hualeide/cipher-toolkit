@@ -5,7 +5,7 @@ import {
   decrypt,
   registry,
 } from '../ciphers/registry.js';
-import { identify, identifyAsync, autoChainDecrypt, chainDecrypt } from '../services/identifier.js';
+import { identify, identifyAsync } from '../services/identifier.js';
 import { isLlmRerankEnabled } from '../services/identifyLlmRerank.js';
 import { analyzeText } from '../services/textAnalysis.js';
 import { formatConvert, listFormats } from '../services/formatConvert.js';
@@ -74,17 +74,6 @@ router.post('/identify', async (req, res) => {
   }
 });
 
-router.post('/chain-decrypt', (req, res) => {
-  try {
-    const { text, chain, steps } = req.body;
-    if (!text) return res.status(400).json({ error: '需要 text' });
-    const stepList = steps || (Array.isArray(chain) ? chain.map((id) => ({ id })) : []);
-    res.json(chainDecrypt(text, stepList));
-  } catch (e) {
-    res.status(400).json({ error: e.message });
-  }
-});
-
 router.get('/formats', (_req, res) => {
   res.json(listFormats());
 });
@@ -117,16 +106,6 @@ router.post('/file', upload.single('file'), (req, res) => {
     });
   } catch (e) {
     res.status(400).json({ error: e.message, code: e.code, scripts: e.scripts });
-  }
-});
-
-router.post('/auto-chain', (req, res) => {
-  try {
-    const { text, maxDepth } = req.body;
-    if (text === undefined) return res.status(400).json({ error: '需要 text' });
-    res.json({ chains: autoChainDecrypt(text, maxDepth || 2) });
-  } catch (e) {
-    res.status(400).json({ error: e.message });
   }
 });
 

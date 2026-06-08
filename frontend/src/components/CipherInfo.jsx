@@ -2,6 +2,7 @@ import { useApp } from '../context/AppContext.jsx';
 import SeeAlsoLinks from './SeeAlsoLinks.jsx';
 import CipherMetaTags from './CipherMetaTags.jsx';
 import CipherExampleBox from './CipherExampleBox.jsx';
+import PigpenChart from './PigpenChart.jsx';
 
 export default function CipherInfo({ cipher, detailed = false, suppressTitle = false }) {
   const { t } = useApp();
@@ -48,7 +49,10 @@ export default function CipherInfo({ cipher, detailed = false, suppressTitle = f
       {cipher.formula && (
         <div className="formula-box">{cipher.formula}</div>
       )}
-      {(cipher.examplePlain || cipher.exampleCipher) && <CipherExampleBox cipher={cipher} />}
+      {detailed && cipher.id === 'pigpen' && <PigpenChart />}
+      {(cipher.examplePlain || cipher.exampleCipher) && (
+        <CipherExampleBox cipher={cipher} largeCipher={cipher.id === 'pigpen'} />
+      )}
       {cipher.origin && <p className="history">{t('library.origin')}：{cipher.origin}</p>}
       {cipher.trivia && <p className="trivia">{t('library.trivia')}：{cipher.trivia}</p>}
       <p className="usage">{t('library.usage')}：{cipher.usage}</p>

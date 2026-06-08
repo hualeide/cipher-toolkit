@@ -2,12 +2,25 @@
 
 const AUTHOR_SYMBOLS = '⌈⌉⌊⌋⟨⟩⟪⟫∀∂∃∅∇∈∉∋∏∑−∓∞∟∠∡∢∧∨'.split('');
 const BILL_SYMBOLS = '☉☽☾♁♃♄♅♆♇⚡⚠☢☣☯☮✦✧✩✪✫✬✭✮✯✰✱✲'.split('');
-const PIGPEN = {
+/** 猪圈密码：A–Z 大写字母 + Pigpen 字体显示为几何符号；仍兼容旧格坐标 A1/B2 */
+const PIGPEN_LEGACY = {
   A: 'A1', B: 'A2', C: 'A3', D: 'B1', E: 'B2', F: 'B3', G: 'C1', H: 'C2', I: 'C3',
   J: 'D1', K: 'D2', L: 'D3', M: 'E1', N: 'E2', O: 'E3', P: 'F1', Q: 'F2', R: 'F3',
   S: 'G1', T: 'G2', U: 'G3', V: 'H1', W: 'H2', X: 'H3', Y: 'I1', Z: 'I2',
 };
-const PIGPEN_REV = Object.fromEntries(Object.entries(PIGPEN).map(([k, v]) => [v, k]));
+const PIGPEN_LEGACY_REV = Object.fromEntries(Object.entries(PIGPEN_LEGACY).map(([k, v]) => [v, k]));
+
+export function pigpenEncode(text) {
+  return text.toUpperCase().split('').map((c) => (/[A-Z]/.test(c) ? c : c)).join('');
+}
+
+export function pigpenDecode(text) {
+  const raw = text.trim();
+  if (/[A-I][1-3]|[D-G][1-3]|[A-Z]\d/i.test(raw)) {
+    return raw.toUpperCase().split(/\s+/).map((p) => PIGPEN_LEGACY_REV[p] || p).join('');
+  }
+  return text.toUpperCase().split('').map((c) => (/[A-Z]/.test(c) ? c : c)).join('');
+}
 const EMOJI = [
   '🔴', '🟠', '🟡', '🟢', '🔵', '🟣', '🟤', '⚫', '⚪', '🔶',
   '🔷', '🔸', '🔹', '🔺', '🔻', '💠', '⭐', '🌙', '🌈', '🔥',
@@ -52,14 +65,6 @@ export function a1z26Decode(text) {
     if (num === 0) return ' ';
     return num >= 1 && num <= 26 ? String.fromCharCode(num + 64) : n;
   }).join('');
-}
-
-export function pigpenEncode(text) {
-  return text.toUpperCase().split('').map((c) => PIGPEN[c] || c).join(' ');
-}
-
-export function pigpenDecode(text) {
-  return text.toUpperCase().split(/\s+/).map((p) => PIGPEN_REV[p] || p).join('');
 }
 
 export function zalgoEncode(text, intensity = 3) {
@@ -216,20 +221,25 @@ export function smallCapsDecode(text) {
   }).join('');
 }
 
+/** 26 字母 ↔ 双旗方向（本工具专用双射表，便于 CTF/密码吧练习） */
+const SEMAPHORE_TABLE = {
+  A: '↖↖', B: '↖↑', C: '↖↗', D: '↖←', E: '↖●', F: '↖→', G: '↖↙', H: '↖↓', I: '↖↘',
+  J: '↑↖', K: '↑↑', L: '↑↗', M: '↑←', N: '↑●', O: '↑→', P: '↑↙', Q: '↑↓', R: '↑↘',
+  S: '↗↖', T: '↗↑', U: '↗↗', V: '↗←', W: '↗●', X: '↗→', Y: '↗↙', Z: '↗↓',
+};
+const SEMAPHORE_REV = Object.fromEntries(
+  Object.entries(SEMAPHORE_TABLE).map(([k, v]) => [v, k]),
+);
+
 export function semaphoreEncode(text) {
-  const positions = ['↖', '↑', '↗', '←', '●', '→', '↙', '↓', '↘'];
-  const alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  return text.toUpperCase().split('').map((c) => {
-    const i = alpha.indexOf(c);
-    if (i < 0) return c;
-    const row = Math.floor(i / 9);
-    const col = i % 9;
-    return `${positions[row % 3]}${positions[3 + (col % 3)]}`;
-  }).join(' ');
+  return text.toUpperCase().split('').map((c) => SEMAPHORE_TABLE[c] || c).join(' ');
 }
 
 export function semaphoreDecode(text) {
-  return text;
+  return text.trim().split(/\s+/).map((token) => {
+    const sig = [...token.replace(/\s/g, '')].join('');
+    return SEMAPHORE_REV[sig] || token;
+  }).join('');
 }
 
 export function memeBinaryEncode(text) {

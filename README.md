@@ -1,22 +1,8 @@
 # 密码学工具箱 (Cipher Toolkit)
 
-> **面向密码爱好者的学习与实验平台** — 无需安装专业软件，在浏览器里动手加解密、查百科、试组合链与密文统计。适合密码学课程、CTF 入门、ARG 解谜与自学。**默认首页为加解密**；自动识别为实验功能，仍在打磨。
+> **面向密码爱好者的学习与实验平台** — 默认 **加解密** 页动手试 99 种算法；带密码吧/CTF 入门指引与百科。自动识别为实验功能。适合 CTF 签到、密码吧自学、中文码点实验。
 
-整合 **98** 种加密/编码/变换方式的全栈 Web 工具；**中文码点密码**与百科式教学是核心特色之一。
-
-## 应用方向
-
-详见 **[docs/APPLICATION.md](./docs/APPLICATION.md)**。简要如下：
-
-| 方向 | 说明 |
-|------|------|
-| **课堂与自学** | 百科 + 双向加解密，理解古典/现代密码原理 |
-| **中文密码实验** | Unicode 码点凯撒/维吉尼亚等，简繁日韩同域 |
-| **CTF / ARG 辅助** | 组合解密、Recipe 分享、密文统计；识别结果需复核 |
-| **趣味与文化** | Journal 密码、Brainfuck、SCP 涂黑等 |
-| **多媒体实验** | 隐写、格式转换等（演示向，非取证级） |
-
-> **不是**生产密码管理器或 HSM。现代算法演示仅供教学；识别页为实验功能，复杂密文请优先组合解密或手动选算法。
+整合 **99** 种加密/编码/变换；**中文码点密码**与百科式教学是核心特色。
 
 **在线仓库**：[github.com/hualeide/cipher-toolkit](https://github.com/hualeide/cipher-toolkit) · **Pages 预览（仅 UI）**：[hualeide.github.io/cipher-toolkit](https://hualeide.github.io/cipher-toolkit/)
 
@@ -27,7 +13,7 @@
 只需安装 [Docker](https://www.docker.com/)，**无需 clone 源码**：
 
 ```powershell
-# Windows — 下载 run-docker.ps1 后执行，或一行命令：
+# Windows — 一行命令：
 docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit:latest
 ```
 
@@ -40,13 +26,13 @@ docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit
 
 预构建镜像：[Packages → cipher-toolkit](https://github.com/hualeide/cipher-toolkit/pkgs/container/cipher-toolkit)
 
-> **完整功能**需运行后端。也可克隆后 `.\install.ps1` / `./install.sh`，详见 **[DEPLOY.md](./DEPLOY.md)**。
+> **完整功能**需运行后端。也可克隆后 `.install.ps1` / `./install.sh`，详见 **[DEPLOY.md](./DEPLOY.md)**。
 
 ---
 
 ## 界面预览
 
-![界面预览](docs/screenshots/home.png)（默认首页：加解密）
+![加解密页](docs/screenshots/home.png)
 
 ---
 
@@ -54,18 +40,18 @@ docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit
 
 | 文档 | 说明 |
 |------|------|
-| **[docs/APPLICATION.md](./docs/APPLICATION.md)** | **应用方向**：定位、默认体验、不是什么 |
+| **[docs/CTF-CLASSICAL.md](./docs/CTF-CLASSICAL.md)** | **密码吧/CTF 古典密码速查**（认题型 → 选算法） |
+| **[docs/PROJECT.md](./docs/PROJECT.md)** | **封版说明**（v1.1.0 范围与维护策略） |
+| **[docs/APPLICATION.md](./docs/APPLICATION.md)** | 应用方向与定位 |
 | **[docs/DEMO.md](./docs/DEMO.md)** | **功能演示**：样例密文、API curl、压测命令 |
-| **[docs/IDENTIFY-TECH.md](./docs/IDENTIFY-TECH.md)** | **识别技术**：自然度评分、词典消歧、LLM 重排、容易出现的误区 |
-| **[docs/DESKTOP.md](./docs/DESKTOP.md)** | **Windows 桌面版 `.exe`** 打包与使用 |
+| **[docs/IDENTIFY-TECH.md](./docs/IDENTIFY-TECH.md)** | **识别技术**：自然度评分、词典消歧、LLM 重排 |
+| **[docs/DESKTOP.md](./docs/DESKTOP.md)** | **Windows 桌面版 exe** 打包与使用 |
 | [DEPLOY.md](./DEPLOY.md) | 部署（Docker / Render / Pages / exe） |
 | [BENCHMARKS.md](./BENCHMARKS.md) | 识别压测与通过率 |
 | [CONTRIBUTING.md](./CONTRIBUTING.md) | 贡献指南 |
 | [CHANGELOG.md](./CHANGELOG.md) | 版本变更 |
 | [SECURITY.md](./SECURITY.md) | 安全政策 |
 | [docs/openapi.yaml](./docs/openapi.yaml) | API 规范（运行时 `/api/openapi.yaml`） |
-| [docs/demo-samples.json](./docs/demo-samples.json) | 结构化演示样例（脚本/教学用） |
-| [.env.example](./.env.example) | 环境变量模板（含 LLM 重排） |
 
 ---
 
@@ -75,7 +61,8 @@ docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit
 |------|------|
 | **学习古典密码** | 凯撒/维吉尼亚/Playfair/Bifid/Trifid 等，带百科原理与名言示例 |
 | **中文加解密** | Unicode 码点凯撒/维吉尼亚/仿射，简繁体、日韩文同域运算 |
-| **CTF / ARG** | 组合解密 + Recipe 分享（类 CyberChef）；识别为实验辅助 |
+| **密码吧 / CTF 入门** | 「密码吧入门」分类 + [CTF-CLASSICAL.md](./docs/CTF-CLASSICAL.md) |
+| **CTF / ARG** | 自动识别（实验）+ 密文统计；多层题在加解密页逐层手动 |
 | **现代密码入门** | AES / ChaCha20 / RSA / 哈希族（演示用，非生产 HSM） |
 | **迷因与流行文化** | 怪诞小镇 Journal 密码、Brainfuck、SCP 涂黑等 |
 | **文件与隐写** | CLI/API 文件加解密、格式转换、PNG LSB 藏文 |
@@ -89,13 +76,10 @@ docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit
 - 加解密页与百科双向联动，支持**中/英/日/韩**界面
 
 ### 智能识别（实验 · 中文优先）
-- **实验功能**，结果需人工复核；复杂多层密文请用组合解密
+- **实验功能**，结果需人工复核；多层密文请在加解密页逐层手动试
 - 穷举 + **可读性 / 自然度评分** + **往返校验**（verified）
-- 中文 **字频 + 2/3-gram 语料**（名著/和合本/口语）抑制乱移位误报
-- 英文凯撒 **词典覆盖率** 多移位消歧
-- 可选 **LLM 重排**（`IDENTIFY_LLM_RERANK=1`，见 [docs/IDENTIFY-TECH.md](./docs/IDENTIFY-TECH.md)）
 - 乱汉字密文优先 **Unicode 码点凯撒**，抑制 upside-down/RC4 等误报
-- 摩斯中文模式：标准电报码 + **繁简映射**（和合本繁体经节）
+- 摩斯中文模式：标准电报码 + **繁简映射**
 
 ### 密文分析
 | 指标 | 原理 |
@@ -105,18 +89,13 @@ docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit
 | **频率** | 单表替换保留语言字母轮廓 |
 | **Kasiski** | 重复 n-gram 间距公约数 → 密钥长度候选 |
 
-### 组合解密 & Recipe
-- **自动链**：逐层识别（如 Base64 → ROT13 → 凯撒）
-- **手动链**：自选步骤顺序
-- **Recipe**：保存/导出 JSON/分享链接 `#recipe=…`，本地可存 30 条
-
 ### 多媒体实验室
 - 幻影坦克、图片融入、图层融合、格式互转、超分、降噪
 - **LSB 藏文**：PNG 最低位嵌入文本，可配合加密后再藏
 
 ---
 
-## 全部算法一览（98）
+## 全部算法一览（99）
 
 ### 中文/多语言（4）
 
@@ -146,7 +125,7 @@ docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit
 | **Trifid 密码** `trifid` | 三分密码：3×3×3 立方体（A-Z + 句点），每字用层/行/列三元坐标；层、行、列序列分别拼接后三位一组重组。Bifid 的三维加强版。 |
 | **Four-square 密码** `four-square` | 四格密码：四个 5×5 方阵（两密钥表+两标准表），明文对取自左上/右下，密文对由右上/左下交叉行列生成。双密钥 Playfair 变体，1902。 |
 | **Enigma 简化版** `enigma-simple` | 模拟 Enigma 转子替换（Educational 简化，非历史精确）。 |
-| **猪圈密码 (Pigpen)** `pigpen` | Masonic 九宫格几何密码，每字母对应格位置如 A1、B2。 |
+| **猪圈密码 (Pigpen)** `pigpen` | Masonic 四格几何密码：每字母对应格子图形符号（见百科对照图）。 |
 | **藏头诗 / 首字母** `acrostic` | 每行首字母连读组成隐藏信息。GF 部分页面用此技巧。 |
 
 ### 多表替换（5）
@@ -167,7 +146,7 @@ docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit
 | **列移位密码** `columnar` | 按密钥字母顺序重排列，明文写入网格后按列读出。 |
 | **Skytale 木棍密码** `scytale` | 古希腊 Spartans 使用的 transposition 密码，纸条缠绕木棍读写。 |
 
-### 编码/表示（26）
+### 编码/表示（27）
 
 | 算法 | 简介 |
 |------|------|
@@ -184,6 +163,7 @@ docker run -d -p 3001:3001 --name cipher-toolkit ghcr.io/hualeide/cipher-toolkit
 | **Ascii85** `ascii85` | Adobe Base85，<~ ~> 包裹。 |
 | **Bacon 密码** `bacon` | Francis Bacon 用 a/b 双字母组表示 5 位。 |
 | **Tap Code** `tap-code` | 5×5 网格坐标，监狱通信用。 |
+| **旗语密码** `semaphore` | 国际海事旗语：每个字母用两面旗的方向组合表示。CTF/密码吧视觉题常见。 |
 | **Polybius 方阵** `polybius` | 5×5 坐标 (行,列) 表字母。 |
 | **NATO 音标** `nato` | Alpha Bravo Charlie 军事拼读。 |
 | **盲文映射** `braille` | 字母到 Unicode 盲文字符。 |
@@ -335,22 +315,18 @@ docker compose up --build   # Docker 全栈
 | POST | /api/ciphers/decrypt | `{ id, text, params }` |
 | POST | /api/ciphers/identify | `{ text }` 智能识别 |
 | POST | /api/ciphers/analyze | `{ text }` 密文统计 |
-| POST | /api/ciphers/auto-chain | 自动组合解密 |
-| POST | /api/ciphers/chain-decrypt | 手动链解密 |
 | POST | /api/ciphers/file | 文件加解密（multipart） |
 | POST | /api/media/stego/embed | 图片 LSB 藏文 |
 | POST | /api/media/stego/extract | 图片 LSB 提取 |
-| GET | /api/openapi.yaml | OpenAPI 规范 |
 
 ## 测试
 
 ```bash
 npm test
-npm run test:e2e     # 需先 npx playwright install chromium
 # 和合本压测（慢）: node backend/test-identify-bible-zh.js
 ```
 
-含 10 轮全算法识别回环（**780/780** 严格档 ≥95）、Playwright E2E、文本分析、多语言、文件/LSB 等自测。详见 [BENCHMARKS.md](./BENCHMARKS.md)。
+含 10 轮全算法识别回环（**780/780** 严格档 ≥95）、文本分析、多语言、文件/LSB 等自测。详见 [BENCHMARKS.md](./BENCHMARKS.md)。
 
 ---
 

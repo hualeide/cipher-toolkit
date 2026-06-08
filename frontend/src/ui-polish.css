@@ -370,3 +370,44 @@ textarea[aria-busy="true"] {
   .loading-spinner { animation: none !important; }
   .skeleton-chip { animation: none !important; }
 }
+
+/* 猪圈密码：标准对照图 + Pigpen 字体 */
+@font-face {
+  font-family: 'Pigpen';
+  src: url('/fonts/Pigpen-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.pigpen-chart {
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius, 8px);
+  background: var(--surface-2, rgba(255, 255, 255, 0.03));
+}
+.pigpen-key-img {
+  display: block;
+  max-width: min(280px, 100%);
+  height: auto;
+  margin: 10px auto 0;
+  image-rendering: crisp-edges;
+}
+.pigpen-credit {
+  margin-top: 8px;
+  font-size: 0.75rem;
+}
+.pigpen-glyphs,
+.pigpen-font,
+textarea.pigpen-font {
+  font-family: 'Pigpen', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+}
+.example-cipher-glyphs code.pigpen-glyphs {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 1.75rem;
+}

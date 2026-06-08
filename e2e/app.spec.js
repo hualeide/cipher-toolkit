@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { pageHeading, navTab } from './helpers.js';
+import { pageHeading, navTab, identifyInput } from './helpers.js';
 
 test.describe('应用启动', () => {
   test('加载算法库并显示加解密页', async ({ page }) => {
@@ -19,10 +19,7 @@ test.describe('导航', () => {
 
   test('切换主要页面', async ({ page }) => {
     await navTab(page, /自动识别/).click();
-    await expect(pageHeading(page, '自动识别')).toBeVisible();
-
-    await navTab(page, /组合解密/).click();
-    await expect(pageHeading(page, '组合解密')).toBeVisible();
+    await expect(identifyInput(page)).toBeVisible();
 
     await navTab(page, /算法百科/).click();
     await expect(pageHeading(page, '算法百科')).toBeVisible();

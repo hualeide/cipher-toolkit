@@ -1,6 +1,6 @@
 import { useApp } from '../context/AppContext.jsx';
 
-export default function CipherExampleBox({ cipher }) {
+export default function CipherExampleBox({ cipher, largeCipher = false }) {
   const { t } = useApp();
   if (!cipher?.examplePlain && !cipher?.exampleCipher) return null;
 
@@ -18,7 +18,10 @@ export default function CipherExampleBox({ cipher }) {
         <div>{t('library.plainEx')}：<code>{cipher.examplePlain}</code></div>
       )}
       {cipher.exampleCipher && (
-        <div>{t(cipher.reversible === false ? 'library.digestEx' : 'library.cipherEx')}：<code>{cipher.exampleCipher}</code></div>
+        <div className={largeCipher ? 'example-cipher-glyphs' : undefined}>
+          {t(cipher.reversible === false ? 'library.digestEx' : 'library.cipherEx')}：
+          <code className={largeCipher ? 'pigpen-glyphs' : undefined}>{cipher.exampleCipher}</code>
+        </div>
       )}
     </div>
   );

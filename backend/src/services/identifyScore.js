@@ -47,8 +47,15 @@ export function verifyRoundtrip(cipherId, plaintext, ciphertext, params) {
     if (cipherId === 'jwt') {
       const decoded = E.jwtDecode(ciphertext);
       const parsed = JSON.parse(decoded);
-      const payload = String(parsed.payload ?? '');
-      return norm(payload) === norm(plaintext);
+      const payload = parsed.payload;
+      const plainNorm = norm(plaintext);
+      if (typeof payload === 'string') return norm(payload) === plainNorm;
+      try {
+        const plainObj = JSON.parse(plaintext);
+        return JSON.stringify(payload) === JSON.stringify(plainObj);
+      } catch {
+        return norm(JSON.stringify(payload)) === plainNorm;
+      }
     }
     if (cipherId === 'morse') {
       return E.morsePlainEqual(plaintext, cipher.decrypt(ciphertext, params || {}));
@@ -287,7 +294,7 @@ export function scoreDecryptCandidate(input, output, { cipherId, params } = {}) 
     }
   }
   const corpusPlainVerified = verified && (isCorpusPlaintext(output) || isBiblePlaintext(output) || isClassicPlaintext(output))
-    && (cipherId?.startsWith('unicode-cp-') || ['caesar', 'rot13', 'rot-all', 'atbash', 'affine'].includes(cipherId));
+    && (cipherId?.startsWith('unicode-cp-') || ['caesar', 'rot13', 'rot-all', 'atbash', 'affine', 'beaufort', 'vigenere', 'unicode-cp-vigenere', 'gf-vigenere-pines'].includes(cipherId));
   if (verified && readable < 48 && !(cipherId === 'morse' && /[\u4e00-\u9fff]/.test(output)) && cipherId !== 'jwt'
     && !shortCjkVerified && !corpusPlainVerified
     && !isMeaningfulShortCjkPlain(output, readable)
@@ -295,7 +302,7 @@ export function scoreDecryptCandidate(input, output, { cipherId, params } = {}) 
     verified = false;
   }
   if (verified) score += 22;
-  const mixedNoise = (output.match(/[^a-zA-Z0-9\u4e00-\u9fff\u3040-\u30ff\s，。！？、；：,\.!?'"()-]/g) || []).length;
+  const mixedNoise = (output.match(/[^a-zA-Z0-9\u0400-\u04FF\u4e00-\u9fff\u3040-\u30ff\s，。！？、；：,\.!?'"()-]/g) || []).length;
   if (mixedNoise / Math.max(output.length, 1) > 0.06) {
     score -= 42;
     verified = false;
@@ -480,7 +487,11 @@ export function pickPreferredResult(a, b) {
     const tie = transposeTieBreak(a, b);
     if (tie !== 0) return tie < 0 ? a : b;
   }
-  if (a.result === b.result && /[\u4e00-\u9fff]/.test(a.result || '')) {
+  if (a.result === b.result && /^[\u4e00-\u9fff]+$/.test(a.result || '')) {
+    if (a.id === 'unicode-cp-caesar' && b.id === 'caesar') return a;
+    if (b.id === 'unicode-cp-caesar' && a.id === 'caesar') return b;
+    if (a.id === 'unicode-cp-decimal' && b.id === 'decimal') return a;
+    if (b.id === 'unicode-cp-decimal' && a.id === 'decimal') return b;
     const userRot = new Set(['rot13', 'rot-all', 'rot18', 'gf-caesar3']);
     const cpFamily = new Set(['unicode-cp-caesar', 'caesar', 'affine', 'unicode-cp-affine']);
     const aff = new Set(['affine', 'unicode-cp-affine']);

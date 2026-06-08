@@ -4,9 +4,8 @@ import { useApp } from '../context/AppContext.jsx';
 
 import { useSettings } from '../hooks/useSettings.js';
 
+import { CTF_CLASSICAL_IDS } from '../data/ctfClassical.js';
 import CipherMetaTags from './CipherMetaTags.jsx';
-
-
 
 export default function CipherPicker({ filterReversible }) {
 
@@ -19,8 +18,8 @@ export default function CipherPicker({ filterReversible }) {
   const allLabel = t('library.all');
 
   const favLabel = t('picker.favorites');
-
-  const [category, setCategory] = useState(allLabel);
+  const ctfLabel = t('picker.ctfClassical');
+  const [category, setCategory] = useState(ctfLabel);
 
 
 
@@ -28,17 +27,15 @@ export default function CipherPicker({ filterReversible }) {
 
     const cats = [...new Set(ciphers.map((c) => c.category))];
 
-    return [favLabel, allLabel, ...cats];
-
-  }, [ciphers, allLabel, favLabel]);
+    return [ctfLabel, favLabel, allLabel, ...cats];
+  }, [ciphers, allLabel, favLabel, ctfLabel]);
 
 
 
   useEffect(() => {
 
-    setCategory((prev) => (categories.includes(prev) ? prev : allLabel));
-
-  }, [categories, allLabel]);
+    setCategory((prev) => (categories.includes(prev) ? prev : ctfLabel));
+  }, [categories, ctfLabel]);
 
 
 
@@ -53,8 +50,8 @@ export default function CipherPicker({ filterReversible }) {
       if (filterReversible && c.reversible === false) return false;
 
       const matchCat = category === allLabel || c.category === category
-
-        || (category === favLabel && favSet.has(c.id));
+        || (category === favLabel && favSet.has(c.id))
+        || (category === ctfLabel && CTF_CLASSICAL_IDS.includes(c.id));
 
       const matchSearch = !q || c.name.toLowerCase().includes(q)
 
@@ -66,7 +63,7 @@ export default function CipherPicker({ filterReversible }) {
 
     });
 
-  }, [ciphers, search, category, filterReversible, allLabel, favLabel, settings.favoriteIds]);
+  }, [ciphers, search, category, filterReversible, allLabel, favLabel, ctfLabel, settings.favoriteIds]);
 
 
 

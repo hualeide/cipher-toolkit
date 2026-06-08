@@ -4,10 +4,27 @@
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-06-07
+
+### Added
+
+- **旗语密码**（`semaphore`）：补全解码并注册，共 99 种算法
+- **猪圈密码**：Wikimedia 标准对照图 + Pigpen 字体显示密文（OFL）
+- [docs/CTF-CLASSICAL.md](./docs/CTF-CLASSICAL.md) 密码吧/CTF 古典密码速查
+- [docs/PROJECT.md](./docs/PROJECT.md) 封版说明
+- [docs/APPLICATION.md](./docs/APPLICATION.md) 应用方向
+- 加解密页算法列表 **「密码吧入门」** 分类（18 种高频题）
+- 测试：`test-pigpen.js`、`test-semaphore.js`
+
 ### Changed
 
-- 默认首页改为**加解密**；导航顺序调整；自动识别标注为实验功能
-- 新增 [docs/APPLICATION.md](./docs/APPLICATION.md) 说明应用方向与定位
+- 默认首页：**加解密**；导航与 Logo 回到加解密；自动识别标注为实验功能
+- `demo-samples.json` 对齐密码吧练习路径
+- 识别引擎：A1Z26 / Unicode 码点十进制 / JWT / jcuken / 口语码点凯撒 / Beaufort 句库等边界修复（780/780 回环）
+
+### Removed
+
+- 组合解密（自动链 / 手动链 / Recipe）及对应 API
 
 ## [1.0.3] - 2026-06-07
 
@@ -72,5 +89,8 @@
 - 摩斯中文：繁简映射 + 电报码
 - 识别测试：纯中文维吉尼亚接受 `unicode-cp-vigenere`
 
+[1.1.0]: https://github.com/hualeide/cipher-toolkit/releases/tag/v1.1.0
+[1.0.3]: https://github.com/hualeide/cipher-toolkit/releases/tag/v1.0.3
+[1.0.2]: https://github.com/hualeide/cipher-toolkit/releases/tag/v1.0.2
 [1.0.1]: https://github.com/hualeide/cipher-toolkit/releases/tag/v1.0.1
 [1.0.0]: https://github.com/hualeide/cipher-toolkit/releases/tag/v1.0.0
