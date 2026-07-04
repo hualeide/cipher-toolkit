@@ -19,7 +19,7 @@
     "build:win": "powershell -ExecutionPolicy Bypass -File scripts/build-win.ps1"
   },
   "devDependencies": {
-    "@playwright/test": "^1.52.0",
+    "@playwright/test": "^1.61.1",
     "concurrently": "^9.1.2"
   }
 }
