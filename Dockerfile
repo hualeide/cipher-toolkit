@@ -1,4 +1,4 @@
-FROM node:22-alpine AS build
+FROM node:25-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json* ./
 COPY backend/package.json backend/package-lock.json* ./backend/
@@ -7,7 +7,7 @@ RUN npm run install:all
 COPY . .
 RUN npm run build --prefix frontend
 
-FROM node:22-alpine
+FROM node:25-alpine
 WORKDIR /app
 ENV NODE_ENV=production
 ENV SERVE_FRONTEND=1
