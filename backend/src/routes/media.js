@@ -134,7 +134,7 @@ router.post('/stego/extract', upload.single('file'), async (req, res) => {
 });
 
 router.get('/formats', (_req, res) => {
-  res.json(['png', 'jpeg', 'webp', 'avif', 'tiff', 'gif', 'bmp']);
+  res.json(['png', 'jpeg', 'webp', 'avif', 'tiff', 'gif']);
 });
 
 router.get('/blend-modes', (_req, res) => {
