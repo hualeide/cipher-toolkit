@@ -427,18 +427,24 @@ export function swapCase(text) {
 }
 
 export function binaryEncode(text) {
-  return [...text].map((ch) => ch.charCodeAt(0).toString(2).padStart(8, '0')).join(' ');
+  const parts = [];
+  for (let i = 0; i < text.length; i++) parts.push(text.charCodeAt(i).toString(2).padStart(8, '0'));
+  return parts.join(' ');
 }
 
 export function binaryDecode(text) {
-  return text.trim().split(/\s+/).map((b) => String.fromCharCode(parseInt(b, 2))).join('');
+  const s = text.trim();
+  if (!s) return '';
+  return s.split(/\s+/).map((b) => String.fromCharCode(parseInt(b, 2))).join('');
 }
 
 export function hexEncode(text) {
-  return [...text].map((ch) => {
-    const cp = ch.codePointAt(0);
-    return cp.toString(16).padStart(cp <= 0xff ? 2 : 4, '0');
-  }).join(' ');
+  const parts = [];
+  for (let i = 0; i < text.length; i++) {
+    const cu = text.charCodeAt(i);
+    parts.push(cu.toString(16).padStart(cu <= 0xff ? 2 : 4, '0'));
+  }
+  return parts.join(' ');
 }
 
 export function hexDecode(text) {
@@ -458,11 +464,15 @@ export function hexDecode(text) {
 }
 
 export function octalEncode(text) {
-  return [...text].map((ch) => ch.charCodeAt(0).toString(8)).join(' ');
+  const parts = [];
+  for (let i = 0; i < text.length; i++) parts.push(text.charCodeAt(i).toString(8));
+  return parts.join(' ');
 }
 
 export function octalDecode(text) {
-  return text.trim().split(/\s+/).map((o) => String.fromCharCode(parseInt(o, 8))).join('');
+  const s = text.trim();
+  if (!s) return '';
+  return s.split(/\s+/).map((o) => String.fromCharCode(parseInt(o, 8))).join('');
 }
 
 export function base64Encode(text) {

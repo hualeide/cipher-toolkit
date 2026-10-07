@@ -78,12 +78,12 @@ export function rc4(text, key, decrypt = false) {
   }
   let i = 0; j = 0;
   let out = '';
-  for (const ch of text) {
+  for (let n = 0; n < text.length; n++) {
     i = (i + 1) % 256;
     j = (j + s[i]) % 256;
     [s[i], s[j]] = [s[j], s[i]];
     const kst = s[(s[i] + s[j]) % 256];
-    out += String.fromCharCode(ch.charCodeAt(0) ^ kst);
+    out += String.fromCharCode(text.charCodeAt(n) ^ kst);
   }
   return out;
 }
@@ -113,9 +113,10 @@ export function hmacSha256(text, key) {
 }
 
 export function crc32(text) {
+  const bytes = Buffer.from(text, 'utf8');
   let crc = 0xffffffff;
-  for (let i = 0; i < text.length; i++) {
-    crc ^= text.charCodeAt(i);
+  for (let i = 0; i < bytes.length; i++) {
+    crc ^= bytes[i];
     for (let j = 0; j < 8; j++) crc = (crc >>> 1) ^ (crc & 1 ? 0xedb88320 : 0);
   }
   return ((crc ^ 0xffffffff) >>> 0).toString(16).padStart(8, '0');
