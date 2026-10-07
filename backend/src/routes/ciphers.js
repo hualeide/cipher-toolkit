@@ -23,6 +23,10 @@ router.get('/categories', (_req, res) => {
   res.json([...new Set(registry.map((c) => c.category))]);
 });
 
+router.get('/formats', (_req, res) => {
+  res.json(listFormats());
+});
+
 router.get('/:id', (req, res) => {
   const meta = getCipherMeta().find((c) => c.id === req.params.id);
   if (!meta) return res.status(404).json({ error: '未找到' });
@@ -72,10 +76,6 @@ router.post('/identify', async (req, res) => {
   } catch (e) {
     res.status(400).json({ error: e.message });
   }
-});
-
-router.get('/formats', (_req, res) => {
-  res.json(listFormats());
 });
 
 router.post('/format-convert', (req, res) => {
